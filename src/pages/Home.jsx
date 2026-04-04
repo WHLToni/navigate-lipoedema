@@ -79,15 +79,7 @@ export default function Home() {
   }
 
   return (
-    <div
-      className="min-h-screen"
-      style={{
-        background: isMorning
-          ? "linear-gradient(180deg, #CCFFCC 0%, #f0fff0 50%, white 100%)"
-          : isEvening
-          ? "linear-gradient(180deg, #FFCCFF 0%, #fff0ff 50%, white 100%)"
-          : "linear-gradient(180deg, white 0%, #f8f8f8 100%)",
-      }}
+    <div className={`min-h-screen ${isMorning ? "bg-tea-green" : isEvening ? "bg-shampoo" : "bg-background"}`}>
     >
       <div className="px-5 pt-8 pb-4">
         {/* Header */}

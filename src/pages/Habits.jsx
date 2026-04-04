@@ -72,13 +72,7 @@ export default function Habits() {
   const loggedHabits = todayLogs.map((l) => l.habit_name);
 
   return (
-    <div
-      className="min-h-screen"
-      style={{
-        background: isEvening
-          ? "linear-gradient(180deg, #FFCCFF 0%, #fff5ff 30%, white 100%)"
-          : "linear-gradient(180deg, #f8faf8 0%, white 100%)",
-      }}
+    <div className={`min-h-screen ${isEvening ? "bg-shampoo" : "bg-background"}`}>
     >
       <div className="px-5 pt-8 pb-4">
         <div className="flex items-center justify-between">
