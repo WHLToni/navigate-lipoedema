@@ -136,7 +136,7 @@ export default function Medication() {
         <div className="px-5 mb-4">
           <Button
             onClick={() => setShowForm(true)}
-            className="w-full h-12 bg-electric-blue hover:bg-blue-700 text-white rounded-xl font-medium"
+            className="mx-auto h-12 bg-electric-blue hover:bg-blue-700 text-white font-medium px-8 flex"
           >
             <Plus className="w-4 h-4 mr-2" /> Log New Injection
           </Button>
