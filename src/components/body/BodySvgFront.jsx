@@ -1,20 +1,20 @@
 export const FRONT_REGIONS = [
-  { id: "left-upper-arm",   label: "Left Upper Arm",   d: "M 72,74 C 63,92 56,120 55,148 L 66,148 C 67,120 72,94 78,78 Z" },
-  { id: "right-upper-arm",  label: "Right Upper Arm",  d: "M 122,78 C 128,94 133,120 134,148 L 145,148 C 144,120 137,92 128,74 Z" },
-  { id: "left-forearm",     label: "Left Forearm",     d: "M 55,148 C 51,168 47,183 46,198 L 58,198 C 59,183 63,168 66,148 Z" },
-  { id: "right-forearm",    label: "Right Forearm",    d: "M 134,148 C 137,168 141,183 142,198 L 154,198 C 153,183 149,168 145,148 Z" },
-  { id: "chest",            label: "Chest",            d: "M 78,78 C 86,75 93,73 100,73 C 107,73 114,75 122,78 L 120,118 L 80,118 Z" },
-  { id: "abdomen",          label: "Abdomen",          d: "M 80,118 L 120,118 L 120,156 L 80,156 Z" },
-  { id: "left-hip",         label: "Left Hip",         d: "M 80,156 L 100,156 L 98,190 L 64,190 C 63,176 68,164 80,156 Z" },
-  { id: "right-hip",        label: "Right Hip",        d: "M 100,156 L 120,156 C 132,164 137,176 136,190 L 102,190 Z" },
-  { id: "left-upper-thigh", label: "Left Upper Thigh", d: "M 64,190 L 89,190 L 87,257 L 64,257 Z" },
-  { id: "right-upper-thigh",label: "Right Upper Thigh",d: "M 111,190 L 136,190 L 136,257 L 113,257 Z" },
-  { id: "left-inner-thigh", label: "Left Inner Thigh", d: "M 82,198 L 93,198 L 91,257 L 83,257 Z" },
-  { id: "right-inner-thigh",label: "Right Inner Thigh",d: "M 107,198 L 118,198 L 117,257 L 109,257 Z" },
-  { id: "left-knee",        label: "Left Knee",        d: "M 64,257 L 88,257 L 88,277 L 64,277 Z" },
-  { id: "right-knee",       label: "Right Knee",       d: "M 112,257 L 136,257 L 136,277 L 112,277 Z" },
-  { id: "left-lower-leg",   label: "Left Lower Leg",   d: "M 64,277 L 87,277 L 85,336 L 65,336 Z" },
-  { id: "right-lower-leg",  label: "Right Lower Leg",  d: "M 113,277 L 136,277 L 135,336 L 115,336 Z" },
+  { id: "left-upper-arm",    label: "Left Upper Arm",    d: "M 70,74 C 64,84 58,112 56,148 L 67,148 C 68,112 73,84 78,76 Z" },
+  { id: "right-upper-arm",   label: "Right Upper Arm",   d: "M 122,76 C 127,84 132,112 133,148 L 144,148 C 142,112 136,84 130,74 Z" },
+  { id: "left-forearm",      label: "Left Forearm",      d: "M 56,148 C 53,170 52,188 51,205 L 63,205 C 63,188 65,170 67,148 Z" },
+  { id: "right-forearm",     label: "Right Forearm",     d: "M 133,148 C 135,170 136,188 137,205 L 149,205 C 148,188 147,170 144,148 Z" },
+  { id: "chest",             label: "Chest",             d: "M 78,76 C 82,68 90,62 100,60 C 110,62 118,68 122,76 L 126,115 L 74,115 Z" },
+  { id: "abdomen",           label: "Abdomen",           d: "M 74,115 L 126,115 L 120,162 L 80,162 Z" },
+  { id: "left-hip",          label: "Left Hip",          d: "M 80,162 L 100,162 L 100,202 L 72,202 C 70,190 72,174 80,162 Z" },
+  { id: "right-hip",         label: "Right Hip",         d: "M 100,162 L 120,162 C 128,174 130,190 128,202 L 100,202 Z" },
+  { id: "left-upper-thigh",  label: "Left Upper Thigh",  d: "M 72,202 L 88,202 L 88,265 L 72,265 Z" },
+  { id: "right-upper-thigh", label: "Right Upper Thigh", d: "M 112,202 L 128,202 L 128,265 L 112,265 Z" },
+  { id: "left-inner-thigh",  label: "Left Inner Thigh",  d: "M 82,210 L 88,210 L 88,265 L 82,265 Z" },
+  { id: "right-inner-thigh", label: "Right Inner Thigh", d: "M 112,210 L 118,210 L 118,265 L 112,265 Z" },
+  { id: "left-knee",         label: "Left Knee",         d: "M 72,265 L 88,265 L 88,285 L 72,285 Z" },
+  { id: "right-knee",        label: "Right Knee",        d: "M 112,265 L 128,265 L 128,285 L 112,285 Z" },
+  { id: "left-lower-leg",    label: "Left Lower Leg",    d: "M 72,285 L 88,285 L 88,334 L 72,334 Z" },
+  { id: "right-lower-leg",   label: "Right Lower Leg",   d: "M 112,285 L 128,285 L 128,334 L 112,334 Z" },
 ];
 
 export default function BodySvgFront({ regionData = {}, onRegionTap, selectedRegion }) {
@@ -30,61 +30,49 @@ export default function BodySvgFront({ regionData = {}, onRegionTap, selectedReg
     return "#0202FB15";
   };
 
-  const s = { fill: "none", stroke: "#003300", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" };
+  const ls = { fill: "none", stroke: "#003300", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" };
 
   return (
     <svg viewBox="0 0 200 350" className="w-full max-w-[280px] mx-auto">
       {/* Head */}
-      <ellipse cx="100" cy="30" rx="15" ry="19" {...s} />
+      <ellipse cx="100" cy="26" rx="13" ry="17" {...ls} />
 
       {/* Neck */}
-      <path d="M 95,49 L 94,64 M 105,49 L 106,64" {...s} />
+      <path d="M 94,43 L 93,60 M 106,43 L 107,60" {...ls} />
 
-      {/* Shoulder line */}
-      <path d="M 94,64 C 88,65 80,68 72,74 M 106,64 C 112,65 120,68 128,74" {...s} />
+      {/* Left shoulder sweep */}
+      <path d="M 93,60 C 86,64 79,68 70,74" {...ls} />
+      {/* Right shoulder sweep */}
+      <path d="M 107,60 C 114,64 121,68 130,74" {...ls} />
 
-      {/* Left arm outer */}
-      <path d="M 72,74 C 62,92 55,120 55,148 C 52,168 48,183 46,198" {...s} />
-      {/* Left arm inner */}
-      <path d="M 78,78 C 70,94 67,120 66,148 C 65,168 60,183 58,198" {...s} />
-      {/* Left wrist */}
-      <path d="M 46,198 L 58,198" {...s} />
+      {/* Left arm */}
+      <path d="M 70,74 C 62,84 56,112 54,150 C 52,172 51,190 51,205 L 63,205 C 63,190 65,172 67,150 C 70,112 74,84 78,76 Z" {...ls} />
 
-      {/* Right arm outer */}
-      <path d="M 128,74 C 138,92 145,120 145,148 C 148,168 152,183 154,198" {...s} />
-      {/* Right arm inner */}
-      <path d="M 122,78 C 130,94 133,120 134,148 C 135,168 140,183 142,198" {...s} />
-      {/* Right wrist */}
-      <path d="M 142,198 L 154,198" {...s} />
+      {/* Right arm */}
+      <path d="M 122,76 C 126,84 130,112 133,150 C 135,172 137,190 137,205 L 149,205 C 149,190 148,172 146,150 C 144,112 138,84 130,74 Z" {...ls} />
 
-      {/* Left torso outer */}
-      <path d="M 72,74 C 74,90 76,108 76,118 C 75,136 76,146 80,156 C 76,166 63,175 62,190" {...s} />
-      {/* Right torso outer */}
-      <path d="M 128,74 C 126,90 124,108 124,118 C 125,136 124,146 120,156 C 124,166 137,175 138,190" {...s} />
+      {/* Torso + Legs */}
+      <path d="
+        M 78,76
+        C 82,68 90,62 100,60
+        C 110,62 118,68 122,76
+        C 124,84 126,96 126,112
+        C 126,128 122,140 118,152
+        C 116,162 120,174 124,182
+        C 126,190 128,196 128,202
+        L 128,334 L 112,334 L 112,202
+        C 110,207 106,212 100,214
+        C 94,212 90,207 88,202
+        L 88,334 L 72,334 L 72,202
+        C 72,196 72,190 74,182
+        C 78,174 82,162 80,152
+        C 76,140 72,128 72,112
+        C 72,96 74,84 78,76 Z
+      " {...ls} />
 
-      {/* Chest top */}
-      <path d="M 78,78 C 86,75 93,73 100,73 C 107,73 114,75 122,78" {...s} />
-
-      {/* Left leg outer */}
-      <path d="M 62,190 C 62,216 63,238 64,257 C 64,268 64,276 64,277 C 64,300 64,318 65,336" {...s} />
-      {/* Left leg inner */}
-      <path d="M 89,190 C 88,216 87,238 87,257 C 87,268 87,276 87,277 C 87,300 86,318 85,336" {...s} />
-      {/* Left foot */}
-      <path d="M 65,336 L 85,336" {...s} />
-
-      {/* Crotch arch */}
-      <path d="M 89,190 C 93,198 107,198 111,190" {...s} />
-
-      {/* Right leg inner */}
-      <path d="M 111,190 C 112,216 113,238 113,257 C 113,268 113,276 113,277 C 113,300 114,318 115,336" {...s} />
-      {/* Right leg outer */}
-      <path d="M 138,190 C 138,216 137,238 136,257 C 136,268 136,276 136,277 C 136,300 136,318 135,336" {...s} />
-      {/* Right foot */}
-      <path d="M 115,336 L 135,336" {...s} />
-
-      {/* Knee lines */}
-      <path d="M 64,257 L 88,257 M 112,257 L 136,257" {...s} strokeOpacity="0.35" />
-      <path d="M 64,277 L 88,277 M 112,277 L 136,277" {...s} strokeOpacity="0.35" />
+      {/* Knee crease lines */}
+      <path d="M 72,265 L 88,265 M 112,265 L 128,265" stroke="#003300" strokeWidth="1" strokeOpacity="0.4" fill="none" strokeLinecap="round" />
+      <path d="M 72,285 L 88,285 M 112,285 L 128,285" stroke="#003300" strokeWidth="1" strokeOpacity="0.4" fill="none" strokeLinecap="round" />
 
       {/* Tappable regions */}
       {FRONT_REGIONS.map((region) => (
