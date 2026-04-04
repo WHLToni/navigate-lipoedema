@@ -17,15 +17,18 @@
       ]
     },
     "type": {
-      "type": "string",
+      "type": "array",
       "title": "Lipoedema Type",
-      "enum": [
-        "Type I",
-        "Type II",
-        "Type III",
-        "Type IV",
-        "Type V"
-      ]
+      "items": {
+        "type": "string",
+        "enum": [
+          "Type I",
+          "Type II",
+          "Type III",
+          "Type IV",
+          "Type V"
+        ]
+      }
     },
     "comorbidities": {
       "type": "array",

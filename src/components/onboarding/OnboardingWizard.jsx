@@ -7,7 +7,13 @@ import { ArrowRight, ArrowLeft, Sun, Shield, Heart } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const STAGES = ["Stage 1", "Stage 2", "Stage 3", "Stage 4"];
-const TYPES = ["Type I", "Type II", "Type III", "Type IV", "Type V"];
+const TYPES = [
+  { id: "Type I", description: "Hip & buttocks only" },
+  { id: "Type II", description: "Hip down to knee, including inner knee fold" },
+  { id: "Type III", description: "Hip all the way to the ankle" },
+  { id: "Type IV", description: "Arms — upper and/or lower" },
+  { id: "Type V", description: "Lower legs and calves only" },
+];
 const COMORBIDITIES = ["POTS", "MCAS", "hEDS/Hypermobility", "Hypothyroidism"];
 const LIFE_STAGES = ["Puberty", "Pregnancy", "Post-Partum", "Perimenopause", "Menopause", "Other"];
 const GOALS = [
@@ -25,7 +31,7 @@ export default function OnboardingWizard({ onComplete }) {
     display_name: "",
     age: "",
     stage: "",
-    type: "",
+    type: [],
     comorbidities: [],
     life_stage: "",
     goals: [],
@@ -125,19 +131,20 @@ export default function OnboardingWizard({ onComplete }) {
                   </button>
                 ))}
               </div>
-              <label className="text-sm font-medium">Type</label>
-              <div className="grid grid-cols-3 gap-2">
+              <label className="text-sm font-medium">Type <span className="text-muted-foreground font-normal">(select all that apply)</span></label>
+              <div className="flex flex-col gap-2">
                 {TYPES.map((t) => (
                   <button
-                    key={t}
-                    onClick={() => updateField("type", t)}
-                    className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${
-                      data.type === t
+                    key={t.id}
+                    onClick={() => toggleArrayItem("type", t.id)}
+                    className={`p-3 rounded-lg border-2 text-left transition-all ${
+                      data.type.includes(t.id)
                         ? "border-electric-blue bg-blue-50 text-electric-blue"
                         : "border-border hover:border-muted-foreground"
                     }`}
                   >
-                    {t}
+                    <span className="text-sm font-semibold block">{t.id}</span>
+                    <span className="text-xs opacity-70 mt-0.5 block">{t.description}</span>
                   </button>
                 ))}
               </div>
