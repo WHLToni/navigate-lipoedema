@@ -15,7 +15,7 @@ const TYPES = [
   { id: "Type V", description: "Lower legs and calves only" },
 ];
 const COMORBIDITIES = ["POTS", "MCAS", "hEDS/Hypermobility", "Hypothyroidism"];
-const LIFE_STAGES = ["Puberty", "Pregnancy", "Post-Partum", "Perimenopause", "Menopause", "Other"];
+const LIFE_STAGES = ["Puberty", "Pregnancy", "Post-Partum", "Perimenopause", "Menopause", "None of the above"];
 const GOALS = [
   "Track tissue remodeling",
   "Monitor GLP-1 progress",
