@@ -3,7 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowLeft, Save, RefreshCw, Trash2 } from "lucide-react";
+import { ArrowLeft, Save, RefreshCw, Trash2, LogOut } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
 const STAGES = ["Stage 1", "Stage 2", "Stage 3", "Stage 4"];
@@ -28,6 +28,7 @@ const GOALS = [
 export default function Settings() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [form, setForm] = useState(null);
   const [saving, setSaving] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
@@ -35,6 +36,7 @@ export default function Settings() {
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
+    base44.auth.me().then((u) => setCurrentUser(u)).catch(() => {});
     base44.entities.UserProfile.filter({}).then((profiles) => {
       if (profiles[0]) {
         setProfile(profiles[0]);
@@ -103,6 +105,20 @@ export default function Settings() {
       </div>
 
       <div className="max-w-lg mx-auto px-5 py-6 space-y-8">
+
+        {/* Account */}
+        <section className="bg-muted/50 rounded-xl p-4 flex items-center justify-between">
+          <div>
+            <p className="text-xs text-muted-foreground">Account</p>
+            <p className="text-sm font-medium">{currentUser?.email || "—"}</p>
+          </div>
+          <button
+            onClick={() => base44.auth.logout("/")}
+            className="flex items-center gap-1.5 border-2 border-border text-sm font-medium px-4 py-1.5 rounded-full hover:border-dynamic-red hover:text-dynamic-red transition-colors"
+          >
+            <LogOut className="w-3.5 h-3.5" /> Log Out
+          </button>
+        </section>
 
         {/* Basic Info */}
         <section className="space-y-4">
