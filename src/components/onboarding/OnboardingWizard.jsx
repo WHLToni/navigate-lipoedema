@@ -331,7 +331,7 @@ export default function OnboardingWizard({ onComplete }) {
           <Button
             onClick={() => setStep((s) => s + 1)}
             disabled={!canNext()}
-            className="flex-1 h-12 bg-electric-blue hover:bg-blue-700 text-white"
+            className={`${step > 0 ? "flex-1" : "min-w-[160px] mx-auto"} h-12 bg-electric-blue hover:bg-blue-700 text-white`}
           >
             Next <ArrowRight className="w-4 h-4 ml-2" />
           </Button>

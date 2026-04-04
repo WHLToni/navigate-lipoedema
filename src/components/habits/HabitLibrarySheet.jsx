@@ -107,7 +107,7 @@ export default function HabitLibrarySheet({ activeHabits, onSave, onClose }) {
 
           <Button
             onClick={() => onSave(selected)}
-            className="w-full h-12 bg-electric-blue hover:bg-blue-700 text-white rounded-xl font-medium mt-4"
+            className="mx-auto h-12 bg-electric-blue hover:bg-blue-700 text-white rounded-full font-medium mt-4 px-10 flex"
           >
             Save Protocol ({selected.length} habits)
           </Button>

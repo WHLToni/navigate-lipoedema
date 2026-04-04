@@ -194,7 +194,7 @@ export default function Home() {
               <Button
                 onClick={submitMorning}
                 disabled={sunlight === null}
-                className="w-full mt-5 h-12 bg-electric-blue hover:bg-blue-700 text-white rounded-xl font-medium"
+                className="mx-auto mt-5 h-12 bg-electric-blue hover:bg-blue-700 text-white font-medium flex"
               >
                 Complete Morning Check-In <ChevronRight className="w-4 h-4 ml-1" />
               </Button>

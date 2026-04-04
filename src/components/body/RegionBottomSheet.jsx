@@ -120,7 +120,7 @@ export default function RegionBottomSheet({ region, existingData, onSave, onClos
         {/* Save */}
         <Button
           onClick={handleSave}
-          className="w-full h-12 bg-electric-blue hover:bg-blue-700 text-white font-medium text-base rounded-xl"
+          className="mx-auto h-12 bg-electric-blue hover:bg-blue-700 text-white font-medium text-base rounded-full px-10 flex"
         >
           Save Region Data
         </Button>

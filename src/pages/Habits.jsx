@@ -171,7 +171,7 @@ export default function Habits() {
           <Button
             variant="outline"
             onClick={() => setShowTriggers(true)}
-            className="w-full h-12 border-shampoo text-pakistani-green rounded-xl"
+            className="mx-auto h-12 border-2 border-pakistani-green text-pakistani-green rounded-full px-8 flex"
           >
             Log Today's Triggers <ChevronDown className="w-4 h-4 ml-2" />
           </Button>
