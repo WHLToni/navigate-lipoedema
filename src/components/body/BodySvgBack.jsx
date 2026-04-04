@@ -1,16 +1,16 @@
 export const BACK_REGIONS = [
-  { id: "back-left-upper-arm",  label: "Left Upper Arm (Back)",  d: "M 70,74 C 64,84 58,112 56,148 L 67,148 C 68,112 73,84 78,76 Z" },
-  { id: "back-right-upper-arm", label: "Right Upper Arm (Back)", d: "M 122,76 C 127,84 132,112 133,148 L 144,148 C 142,112 136,84 130,74 Z" },
-  { id: "upper-back",           label: "Upper Back",             d: "M 78,76 C 82,68 90,62 100,60 C 110,62 118,68 122,76 L 126,115 L 74,115 Z" },
-  { id: "lower-back",           label: "Lower Back",             d: "M 74,115 L 126,115 L 120,162 L 80,162 Z" },
-  { id: "left-buttock",         label: "Left Buttock",           d: "M 80,162 L 100,162 L 100,202 L 72,202 C 70,190 72,174 80,162 Z" },
-  { id: "right-buttock",        label: "Right Buttock",          d: "M 100,162 L 120,162 C 128,174 130,190 128,202 L 100,202 Z" },
-  { id: "back-left-thigh",      label: "Left Thigh (Back)",      d: "M 72,202 L 88,202 L 88,265 L 72,265 Z" },
-  { id: "back-right-thigh",     label: "Right Thigh (Back)",     d: "M 112,202 L 128,202 L 128,265 L 112,265 Z" },
-  { id: "back-left-knee",       label: "Left Knee (Back)",       d: "M 72,265 L 88,265 L 88,285 L 72,285 Z" },
-  { id: "back-right-knee",      label: "Right Knee (Back)",      d: "M 112,265 L 128,265 L 128,285 L 112,285 Z" },
-  { id: "back-left-calf",       label: "Left Calf",              d: "M 72,285 L 88,285 L 88,334 L 72,334 Z" },
-  { id: "back-right-calf",      label: "Right Calf",             d: "M 112,285 L 128,285 L 128,334 L 112,334 Z" },
+  { id: "back-left-upper-arm",  label: "Left Upper Arm (Back)",  d: "M 60,70 C 55,86 50,140 48,202 L 60,206 C 62,144 66,92 74,78 Z" },
+  { id: "back-right-upper-arm", label: "Right Upper Arm (Back)", d: "M 126,78 C 134,92 138,144 140,206 L 152,202 C 150,140 145,86 140,70 Z" },
+  { id: "upper-back",           label: "Upper Back",             d: "M 76,74 C 86,68 93,64 100,62 C 107,64 114,68 124,74 L 120,134 L 80,134 Z" },
+  { id: "lower-back",           label: "Lower Back",             d: "M 80,134 L 120,134 L 118,165 L 82,165 Z" },
+  { id: "left-buttock",         label: "Left Buttock",           d: "M 82,165 L 100,165 L 100,205 L 66,205 C 66,188 72,172 82,165 Z" },
+  { id: "right-buttock",        label: "Right Buttock",          d: "M 100,165 L 118,165 C 128,172 134,188 134,205 L 100,205 Z" },
+  { id: "back-left-thigh",      label: "Left Thigh (Back)",      d: "M 66,205 L 88,205 L 86,262 L 66,262 Z" },
+  { id: "back-right-thigh",     label: "Right Thigh (Back)",     d: "M 112,205 L 134,205 L 134,262 L 114,262 Z" },
+  { id: "back-left-knee",       label: "Left Knee (Back)",       d: "M 66,262 L 86,262 L 86,280 L 66,280 Z" },
+  { id: "back-right-knee",      label: "Right Knee (Back)",      d: "M 114,262 L 134,262 L 134,280 L 114,280 Z" },
+  { id: "back-left-calf",       label: "Left Calf",              d: "M 66,280 L 86,280 L 85,336 L 67,336 Z" },
+  { id: "back-right-calf",      label: "Right Calf",             d: "M 114,280 L 134,280 L 133,336 L 115,336 Z" },
 ];
 
 export default function BodySvgBack({ regionData = {}, onRegionTap, selectedRegion }) {
@@ -26,52 +26,64 @@ export default function BodySvgBack({ regionData = {}, onRegionTap, selectedRegi
     return "#0202FB15";
   };
 
-  const ls = { fill: "none", stroke: "#003300", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" };
+  const stroke = "#003300";
+  const sw = "1.5";
+  const common = { fill: "none", stroke, strokeWidth: sw, strokeLinecap: "round", strokeLinejoin: "round" };
 
   return (
     <svg viewBox="0 0 200 350" className="w-full max-w-[280px] mx-auto">
+
       {/* Head */}
-      <ellipse cx="100" cy="26" rx="13" ry="17" {...ls} />
+      <ellipse cx="100" cy="28" rx="14" ry="18" {...common} />
 
       {/* Neck */}
-      <path d="M 94,43 L 93,60 M 106,43 L 107,60" {...ls} />
+      <path d="M 94,46 L 93,62 M 106,46 L 107,62" {...common} />
 
-      {/* Left shoulder sweep */}
-      <path d="M 93,60 C 86,64 79,68 70,74" {...ls} />
-      {/* Right shoulder sweep */}
-      <path d="M 107,60 C 114,64 121,68 130,74" {...ls} />
+      {/* Full body silhouette — single continuous path (back view, fuller hip) */}
+      <path
+        d="
+          M 107,62
+          C 116,64 132,64 140,70
+          C 146,86 152,140 154,202
+          L 142,206
+          C 140,144 136,92 128,78
+          C 124,72 120,68 120,68
+          C 122,80 122,108 120,132
+          C 120,148 130,168 136,185
+          C 138,195 136,262 134,280
+          C 134,300 133,320 133,336
+          L 115,336
+          C 115,320 114,300 114,280
+          C 114,270 114,210 112,205
+          C 108,212 104,216 100,216
+          C 96,216 92,212 88,205
+          C 86,210 86,270 86,280
+          C 86,300 85,320 85,336
+          L 67,336
+          C 67,320 66,300 66,280
+          C 64,262 62,195 64,185
+          C 70,168 80,148 80,132
+          C 78,108 78,80 80,68
+          C 80,68 76,72 72,78
+          C 64,92 60,144 58,206
+          L 46,202
+          C 48,140 54,86 60,70
+          C 68,64 84,64 93,62
+          Z
+        "
+        {...common}
+      />
 
-      {/* Left arm */}
-      <path d="M 70,74 C 62,84 56,112 54,150 C 52,172 51,190 51,205 L 63,205 C 63,190 65,172 67,150 C 70,112 74,84 78,76 Z" {...ls} />
+      {/* Armpit separators */}
+      <path d="M 128,78 C 124,78 122,80 120,86" {...common} strokeOpacity="0.5" />
+      <path d="M 72,78 C 76,78 78,80 80,86" {...common} strokeOpacity="0.5" />
 
-      {/* Right arm */}
-      <path d="M 122,76 C 126,84 130,112 133,150 C 135,172 137,190 137,205 L 149,205 C 149,190 148,172 146,150 C 144,112 138,84 130,74 Z" {...ls} />
+      {/* Waist horizontal hint */}
+      <path d="M 80,134 L 120,134" stroke={stroke} strokeWidth="1.2" strokeOpacity="0.3" fill="none" strokeLinecap="round" />
 
-      {/* Torso + Legs (back — slightly fuller hip curve) */}
-      <path d="
-        M 78,76
-        C 82,68 90,62 100,60
-        C 110,62 118,68 122,76
-        C 124,84 126,96 126,112
-        C 126,128 122,140 118,152
-        C 116,162 122,176 128,186
-        C 130,192 130,198 128,202
-        L 128,334 L 112,334 L 112,202
-        C 110,207 106,212 100,214
-        C 94,212 90,207 88,202
-        L 88,334 L 72,334 L 72,202
-        C 70,198 70,192 72,186
-        C 78,176 84,162 82,152
-        C 78,140 74,128 74,112
-        C 74,96 76,84 78,76 Z
-      " {...ls} />
-
-      {/* Waist seam hint */}
-      <path d="M 74,115 L 126,115" stroke="#003300" strokeWidth="1" strokeOpacity="0.3" fill="none" strokeLinecap="round" />
-
-      {/* Knee crease lines */}
-      <path d="M 72,265 L 88,265 M 112,265 L 128,265" stroke="#003300" strokeWidth="1" strokeOpacity="0.4" fill="none" strokeLinecap="round" />
-      <path d="M 72,285 L 88,285 M 112,285 L 128,285" stroke="#003300" strokeWidth="1" strokeOpacity="0.4" fill="none" strokeLinecap="round" />
+      {/* Knee lines */}
+      <path d="M 66,262 L 86,262 M 114,262 L 134,262" stroke={stroke} strokeWidth="1.2" strokeOpacity="0.45" fill="none" strokeLinecap="round" />
+      <path d="M 66,280 L 86,280 M 114,280 L 134,280" stroke={stroke} strokeWidth="1.2" strokeOpacity="0.45" fill="none" strokeLinecap="round" />
 
       {/* Tappable regions */}
       {BACK_REGIONS.map((region) => (
