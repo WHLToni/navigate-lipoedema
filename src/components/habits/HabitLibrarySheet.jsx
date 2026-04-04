@@ -4,15 +4,19 @@ import { X, Dumbbell, Salad, Sun, FlaskConical } from "lucide-react";
 import { motion } from "framer-motion";
 
 const HABIT_LIBRARY = {
-  Mechanical: [
+  "Physical Therapies": [
     "Dry Brushing",
-    "60Hz Vibration",
+    "Vibration — Massage Gun",
+    "60Hz/128Hz Vibration — Tuning Fork",
     "Vibration Plate",
-    "Compression (Tights/Boots)",
+    "Compression Tights",
+    "Compression Boots",
     "MLD Therapy",
     "Weight Lifting",
     "Swimming",
     "Ocean Swimming",
+    "Ultrasound Cavitation",
+    "Shockwave Therapy",
   ],
   Metabolic: [
     "Keto Diet",
@@ -23,22 +27,29 @@ const HABIT_LIBRARY = {
   ],
   "Circadian / Environmental": [
     "Morning Sun (15+ min)",
-    "Cold Therapy (Ocean/Ice Bath)",
+    "Cold Therapy — Ocean/Pool",
+    "Cold Therapy — Ice Bath",
   ],
-  "Chemical / Supplements": [
+  Supplements: [
     "Vitamin C",
     "Pine Bark Extract",
     "Quercetin",
     "Magnesium",
+    "Bioflavonoids",
+    "Butcher's Broom",
+    "L-Arginine",
+    "Psyllium Husk",
   ],
 };
 
 const CATEGORY_ICONS = {
-  Mechanical: Dumbbell,
+  "Physical Therapies": Dumbbell,
   Metabolic: Salad,
   "Circadian / Environmental": Sun,
-  "Chemical / Supplements": FlaskConical,
+  Supplements: FlaskConical,
 };
+
+
 
 export default function HabitLibrarySheet({ activeHabits, onSave, onClose }) {
   const [selected, setSelected] = useState([...activeHabits]);

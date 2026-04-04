@@ -7,10 +7,10 @@ import HabitLibrarySheet from "../components/habits/HabitLibrarySheet";
 import TriggerLogger from "../components/habits/TriggerLogger";
 
 const CATEGORY_ICONS = {
-  Mechanical: Dumbbell,
+  "Physical Therapies": Dumbbell,
   Metabolic: Salad,
-  Circadian: Sun,
-  Chemical: FlaskConical,
+  "Circadian / Environmental": Sun,
+  Supplements: FlaskConical,
 };
 
 export default function Habits() {
