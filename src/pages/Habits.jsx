@@ -108,7 +108,13 @@ export default function Habits() {
             </Button>
           </div>
         ) : (
-          activeHabits.map((habit, i) => {
+          <>
+          {isEvening && activeHabits.length > 0 && (
+            <p className="text-xs text-muted-foreground px-1 mb-1">
+              Tap <strong>Done</strong> or <strong>Skip</strong> for each habit below.
+            </p>
+          )}
+          {activeHabits.map((habit, i) => {
             const isLogged = loggedHabits.includes(habit);
             const logEntry = todayLogs.find((l) => l.habit_name === habit);
             return (
@@ -146,13 +152,13 @@ export default function Habits() {
                     <div className="flex gap-2">
                       <button
                         onClick={() => logHabit(habit, "Mechanical", "completed")}
-                        className="px-3 py-1.5 rounded-lg bg-tea-green text-pakistani-green text-xs font-medium hover:scale-105 transition-transform"
+                        className="px-4 py-2 rounded-full bg-electric-blue text-white text-xs font-semibold hover:scale-105 transition-transform"
                       >
                         Done ✓
                       </button>
                       <button
                         onClick={() => logHabit(habit, "Mechanical", "skipped")}
-                        className="px-3 py-1.5 rounded-lg bg-muted text-muted-foreground text-xs font-medium hover:scale-105 transition-transform"
+                        className="px-4 py-2 rounded-full bg-muted text-muted-foreground text-xs font-medium border border-border hover:scale-105 transition-transform"
                       >
                         Skip
                       </button>
@@ -161,7 +167,8 @@ export default function Habits() {
                 </div>
               </motion.div>
             );
-          })
+          })}
+          </>
         )}
       </div>
 
