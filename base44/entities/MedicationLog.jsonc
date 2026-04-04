@@ -1,0 +1,45 @@
+{
+  "name": "MedicationLog",
+  "type": "object",
+  "properties": {
+    "injection_date": {
+      "type": "string",
+      "title": "Injection Date/Time",
+      "format": "date-time"
+    },
+    "clicks": {
+      "type": "number",
+      "title": "Clicks"
+    },
+    "mg_dose": {
+      "type": "number",
+      "title": "mg Dose"
+    },
+    "injection_site": {
+      "type": "string",
+      "title": "Injection Site",
+      "enum": [
+        "L-Thigh",
+        "R-Thigh",
+        "Stomach",
+        "L-Arm",
+        "R-Arm"
+      ]
+    },
+    "sterility_confirmed": {
+      "type": "boolean",
+      "title": "Sterility Confirmed"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Notes"
+    }
+  },
+  "required": [
+    "injection_date",
+    "clicks",
+    "mg_dose",
+    "injection_site",
+    "sterility_confirmed"
+  ]
+}

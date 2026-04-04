@@ -1,0 +1,97 @@
+{
+  "name": "UserProfile",
+  "type": "object",
+  "properties": {
+    "display_name": {
+      "type": "string",
+      "title": "Display Name"
+    },
+    "stage": {
+      "type": "string",
+      "title": "Lipoedema Stage",
+      "enum": [
+        "Stage 1",
+        "Stage 2",
+        "Stage 3",
+        "Stage 4"
+      ]
+    },
+    "type": {
+      "type": "string",
+      "title": "Lipoedema Type",
+      "enum": [
+        "Type I",
+        "Type II",
+        "Type III",
+        "Type IV",
+        "Type V"
+      ]
+    },
+    "comorbidities": {
+      "type": "array",
+      "title": "Comorbidities",
+      "items": {
+        "type": "string",
+        "enum": [
+          "POTS",
+          "MCAS",
+          "hEDS/Hypermobility",
+          "Hypothyroidism"
+        ]
+      }
+    },
+    "life_stage": {
+      "type": "string",
+      "title": "Life Stage",
+      "enum": [
+        "Puberty",
+        "Pregnancy",
+        "Post-Partum",
+        "Perimenopause",
+        "Menopause",
+        "Other"
+      ]
+    },
+    "goals": {
+      "type": "array",
+      "title": "Goals",
+      "items": {
+        "type": "string"
+      }
+    },
+    "notifications_consent": {
+      "type": "boolean",
+      "title": "Notifications Consent",
+      "default": false
+    },
+    "privacy_consent": {
+      "type": "boolean",
+      "title": "Privacy Consent",
+      "default": false
+    },
+    "research_opt_in": {
+      "type": "boolean",
+      "title": "Research Data Opt-In",
+      "default": false
+    },
+    "onboarding_complete": {
+      "type": "boolean",
+      "title": "Onboarding Complete",
+      "default": false
+    },
+    "age": {
+      "type": "number",
+      "title": "Age"
+    },
+    "active_habits": {
+      "type": "array",
+      "title": "Active Habits",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "display_name"
+  ]
+}

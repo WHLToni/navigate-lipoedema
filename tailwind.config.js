@@ -4,12 +4,23 @@ module.exports = {
     content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
   theme: {
   	extend: {
+      fontFamily: {
+        heading: ['var(--font-heading)'],
+        body: ['var(--font-body)'],
+        alert: ['var(--font-alert)'],
+      },
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
+        'electric-blue': 'var(--electric-blue)',
+        'dynamic-red': 'var(--dynamic-red)',
+        'tea-green': 'var(--tea-green)',
+        'shampoo': 'var(--shampoo)',
+        'misty-rose': 'var(--misty-rose)',
+        'pakistani-green': 'var(--pakistani-green)',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -63,20 +74,12 @@ module.exports = {
   		},
   		keyframes: {
   			'accordion-down': {
-  				from: {
-  					height: '0'
-  				},
-  				to: {
-  					height: 'var(--radix-accordion-content-height)'
-  				}
+  				from: { height: '0' },
+  				to: { height: 'var(--radix-accordion-content-height)' }
   			},
   			'accordion-up': {
-  				from: {
-  					height: 'var(--radix-accordion-content-height)'
-  				},
-  				to: {
-  					height: '0'
-  				}
+  				from: { height: 'var(--radix-accordion-content-height)' },
+  				to: { height: '0' }
   			}
   		},
   		animation: {
@@ -85,5 +88,11 @@ module.exports = {
   		}
   	}
   },
+  safelist: [
+    'bg-tea-green', 'bg-shampoo', 'bg-misty-rose', 'bg-electric-blue', 'bg-dynamic-red', 'bg-pakistani-green',
+    'text-electric-blue', 'text-dynamic-red', 'text-pakistani-green', 'text-tea-green', 'text-shampoo',
+    'border-electric-blue', 'border-dynamic-red', 'border-pakistani-green', 'border-tea-green', 'border-shampoo',
+    'fill-electric-blue', 'fill-dynamic-red', 'fill-misty-rose',
+  ],
   plugins: [require("tailwindcss-animate")],
 }

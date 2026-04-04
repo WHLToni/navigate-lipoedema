@@ -1,0 +1,62 @@
+{
+  "name": "BodyRegionLog",
+  "type": "object",
+  "properties": {
+    "region_id": {
+      "type": "string",
+      "title": "Region ID"
+    },
+    "view": {
+      "type": "string",
+      "title": "View",
+      "enum": [
+        "front",
+        "back"
+      ]
+    },
+    "skin_quality": {
+      "type": "array",
+      "title": "Skin Quality",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Cold",
+          "Woody",
+          "Loose/Concertina",
+          "Velvety",
+          "Healthy/Warm"
+        ]
+      }
+    },
+    "fat_quality": {
+      "type": "array",
+      "title": "Fat Quality",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Spongy/Fluffy",
+          "Heavy",
+          "Painful",
+          "Hard",
+          "Congested/Thick"
+        ]
+      }
+    },
+    "pain_score": {
+      "type": "number",
+      "title": "Pain Score",
+      "minimum": 1,
+      "maximum": 10
+    },
+    "log_date": {
+      "type": "string",
+      "title": "Log Date",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "region_id",
+    "pain_score",
+    "log_date"
+  ]
+}

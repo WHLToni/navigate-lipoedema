@@ -1,0 +1,38 @@
+{
+  "name": "HabitLog",
+  "type": "object",
+  "properties": {
+    "habit_name": {
+      "type": "string",
+      "title": "Habit Name"
+    },
+    "category": {
+      "type": "string",
+      "title": "Category",
+      "enum": [
+        "Mechanical",
+        "Metabolic",
+        "Circadian",
+        "Chemical"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "enum": [
+        "completed",
+        "skipped"
+      ]
+    },
+    "log_date": {
+      "type": "string",
+      "title": "Log Date",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "habit_name",
+    "status",
+    "log_date"
+  ]
+}

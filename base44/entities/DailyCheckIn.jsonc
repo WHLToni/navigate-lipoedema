@@ -1,0 +1,57 @@
+{
+  "name": "DailyCheckIn",
+  "type": "object",
+  "properties": {
+    "check_in_type": {
+      "type": "string",
+      "title": "Check-In Type",
+      "enum": [
+        "morning",
+        "evening"
+      ]
+    },
+    "check_in_date": {
+      "type": "string",
+      "title": "Check-In Date",
+      "format": "date"
+    },
+    "morning_sunlight": {
+      "type": "boolean",
+      "title": "Morning Sunlight (15+ min)"
+    },
+    "tissue_scan_regions": {
+      "type": "array",
+      "title": "Quick Tissue Scan Regions",
+      "items": {
+        "type": "object",
+        "properties": {
+          "region_id": {
+            "type": "string"
+          },
+          "temperature": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "triggers": {
+      "type": "array",
+      "title": "Triggers",
+      "items": {
+        "type": "string"
+      }
+    },
+    "trigger_other": {
+      "type": "string",
+      "title": "Other Trigger"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Notes"
+    }
+  },
+  "required": [
+    "check_in_type",
+    "check_in_date"
+  ]
+}
