@@ -12,7 +12,7 @@ import Habits from './pages/Habits';
 import Medication from './pages/Medication';
 import Dashboard from './pages/Dashboard';
 import Settings from './pages/Settings';
-import BodyHistory from './pages/BodyHistory';
+
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -47,7 +47,7 @@ const AuthenticatedApp = () => {
         <Route path="/medication" element={<Medication />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/settings" element={<Settings />} />
-        <Route path="/body-history" element={<BodyHistory />} />
+
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
