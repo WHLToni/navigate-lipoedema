@@ -179,7 +179,7 @@ export default function HabitLibrarySheet({ activeHabits, onSave, onClose }) {
                 <Icon className="w-4 h-4" style={{ color: '#003300' }} />
                 <h4 className="text-sm font-semibold" style={{ color: '#003300' }}>{category}</h4>
               </div>
-              <div className="flex flex-col gap-2">
+              <div className="grid grid-cols-3 gap-2">
                 {habits.map((habit) => (
                   <HabitChip
                     key={habit}
