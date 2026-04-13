@@ -80,7 +80,6 @@ export default function Home() {
 
   return (
     <div className={`min-h-screen ${isMorning ? "bg-tea-green" : isEvening ? "bg-shampoo" : "bg-background"}`}>
-    >
       <div className="px-5 pt-8 pb-4">
         {/* Header */}
         <motion.div

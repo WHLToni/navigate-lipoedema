@@ -73,7 +73,6 @@ export default function Habits() {
 
   return (
     <div className={`min-h-screen ${isEvening ? "bg-shampoo" : "bg-background"}`}>
-    >
       <div className="px-5 pt-8 pb-4">
         <div className="flex items-center justify-between">
           <div>
