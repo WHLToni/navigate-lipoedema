@@ -32,16 +32,12 @@ export default function RegionBottomSheet({ region, existingData, onSave, onClos
 
   return (
     <motion.div
-      initial={{ y: "100%" }}
-      animate={{ y: 0 }}
-      exit={{ y: "100%" }}
+      initial={{ x: "100%" }}
+      animate={{ x: 0 }}
+      exit={{ x: "100%" }}
       transition={{ type: "spring", damping: 25, stiffness: 300 }}
-      className="fixed inset-x-0 bottom-0 z-50 bg-card rounded-t-3xl border-t border-border shadow-2xl max-h-[85vh] overflow-y-auto"
+      className="fixed inset-y-0 right-0 w-full max-w-[400px] h-screen z-50 bg-card border-l border-border shadow-2xl overflow-y-auto"
     >
-      {/* Handle */}
-      <div className="flex justify-center pt-3 pb-1">
-        <div className="w-10 h-1 bg-muted rounded-full" />
-      </div>
 
       <div className="px-5 pb-8">
         {/* Header */}
