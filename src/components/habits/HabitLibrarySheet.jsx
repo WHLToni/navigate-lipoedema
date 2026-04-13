@@ -74,28 +74,31 @@ export default function HabitLibrarySheet({ activeHabits, onSave, onClose }) {
         animate={{ y: 0 }}
         exit={{ y: "100%" }}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-        className="fixed inset-x-0 bottom-0 z-50 bg-card rounded-t-3xl border-t border-border shadow-2xl max-h-[90vh] flex flex-col"
+        className="fixed inset-x-0 bottom-0 z-50 bg-card rounded-t-3xl border-t border-border shadow-2xl h-[85vh]"
+        style={{ display: "flex", flexDirection: "column" }}
       >
+        {/* Drag handle */}
         <div className="flex justify-center pt-3 pb-1 flex-shrink-0">
           <div className="w-10 h-1 bg-muted rounded-full" />
         </div>
 
-        {/* Scrollable content */}
-        <div className="px-5 overflow-y-auto flex-1 pb-2">
-          <div className="flex items-center justify-between mb-5">
-            <h3 className="font-heading text-xl text-pakistani-green">Habit Library</h3>
-            <button onClick={onClose} className="p-2 rounded-full hover:bg-muted">
-              <X className="w-5 h-5" />
-            </button>
-          </div>
+        {/* Header */}
+        <div className="flex items-center justify-between px-5 pb-3 flex-shrink-0">
+          <h3 className="font-heading text-xl" style={{ color: '#003300' }}>Habit Library</h3>
+          <button onClick={onClose} className="p-2 rounded-full hover:bg-muted">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
 
+        {/* Scrollable habit categories */}
+        <div className="flex-1 overflow-y-auto px-5 py-4">
           {Object.entries(HABIT_LIBRARY).map(([category, habits]) => {
             const Icon = CATEGORY_ICONS[category] || Sun;
             return (
               <div key={category} className="mb-5">
                 <div className="flex items-center gap-2 mb-2">
                   <Icon className="w-4 h-4" style={{ color: '#003300' }} />
-                  <h4 className="text-sm font-semibold text-pakistani-green">{category}</h4>
+                  <h4 className="text-sm font-semibold" style={{ color: '#003300' }}>{category}</h4>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {habits.map((habit) => (
@@ -118,10 +121,10 @@ export default function HabitLibrarySheet({ activeHabits, onSave, onClose }) {
         </div>
 
         {/* Sticky footer */}
-        <div className="px-5 py-4 border-t border-border flex-shrink-0">
+        <div className="p-5 border-t border-border bg-card pb-10 flex-shrink-0">
           <Button
             onClick={() => onSave(selected)}
-            className="w-full h-12 text-white rounded-full font-medium"
+            className="w-full h-12 rounded-full font-medium text-white"
             style={{ backgroundColor: '#0202FB' }}
           >
             Save Protocol ({selected.length} habits)
