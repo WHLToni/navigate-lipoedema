@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Dumbbell, Salad, Sun, FlaskConical, Info, X } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
+import { ArrowLeft, Dumbbell, Salad, Sun, FlaskConical, Info, ChevronDown, ChevronUp } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const HABIT_LIBRARY = {
   "Physical Therapies": [
@@ -87,38 +87,50 @@ const HABIT_WHY = {
   "Psyllium Husk": "Soluble fibre that feeds beneficial gut bacteria, reducing systemic inflammatory load.",
 };
 
-function HabitInfoPopover({ habitName }) {
-  const [open, setOpen] = useState(false);
-  const why = HABIT_WHY[habitName];
-  if (!why) return null;
+function HabitChip({ habit, selected, onToggle }) {
+  const [expanded, setExpanded] = useState(false);
+  const why = HABIT_WHY[habit];
 
   return (
-    <div className="relative inline-flex">
-      <button
-        onClick={(e) => { e.stopPropagation(); setOpen(!open); }}
-        className="p-1 rounded-full hover:bg-black/10 transition-colors"
-      >
-        <Info className="w-3.5 h-3.5" style={{ color: '#003300' }} />
-      </button>
+    <div
+      className={`rounded-xl border-2 transition-all text-xs font-medium overflow-hidden ${
+        selected
+          ? "border-[#0202FB] bg-white"
+          : "border-white bg-white"
+      }`}
+    >
+      <div className="flex items-center gap-1 px-3 py-2">
+        <button
+          onClick={() => onToggle(habit)}
+          className={`flex-1 text-left font-medium ${selected ? "text-[#0202FB]" : "text-foreground"}`}
+        >
+          {habit}
+        </button>
+        {why && (
+          <button
+            onClick={(e) => { e.stopPropagation(); setExpanded((v) => !v); }}
+            className="p-0.5 rounded-full hover:bg-gray-100 transition-colors flex-shrink-0"
+          >
+            {expanded
+              ? <ChevronUp className="w-3.5 h-3.5" style={{ color: '#003300' }} />
+              : <Info className="w-3.5 h-3.5" style={{ color: '#003300' }} />
+            }
+          </button>
+        )}
+      </div>
       <AnimatePresence>
-        {open && (
-          <>
-            <div className="fixed inset-0 z-[60]" onClick={() => setOpen(false)} />
-            <motion.div
-              initial={{ opacity: 0, y: 4, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.15 }}
-              className="absolute left-0 top-7 z-[60] bg-white border border-border rounded-xl shadow-xl p-3 w-64 text-xs leading-relaxed"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex items-start justify-between gap-2 mb-1">
-                <span className="font-semibold" style={{ color: '#003300' }}>Why this helps</span>
-                <button onClick={() => setOpen(false)}><X className="w-3 h-3 text-muted-foreground" /></button>
-              </div>
-              <p className="text-foreground">{why}</p>
-            </motion.div>
-          </>
+        {expanded && why && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <p className="px-3 pb-2.5 text-xs text-muted-foreground leading-relaxed border-t border-gray-100 pt-2">
+              {why}
+            </p>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>
@@ -135,23 +147,25 @@ export default function HabitLibrarySheet({ activeHabits, onSave, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-background z-50 flex flex-col">
-      {/* Header */}
-      <div className="flex items-center gap-3 px-5 pt-10 pb-4 flex-shrink-0">
-        <button
-          onClick={onClose}
-          className="p-2 rounded-full hover:bg-muted transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5" style={{ color: '#003300' }} />
-        </button>
-        <div>
-          <h1 className="font-heading text-2xl" style={{ color: '#003300' }}>Wellness Menu</h1>
-          <p className="text-xs text-muted-foreground">Select habits to add to your 30-day protocol</p>
+    <div className="fixed inset-0 bg-background z-50 overflow-y-auto">
+      {/* Sticky header */}
+      <div className="sticky top-0 bg-background z-20 border-b border-border">
+        <div className="flex items-center gap-3 px-5 pt-10 pb-4">
+          <button
+            onClick={onClose}
+            className="p-2 rounded-full hover:bg-muted transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5" style={{ color: '#003300' }} />
+          </button>
+          <div>
+            <h1 className="font-heading text-2xl" style={{ color: '#003300' }}>Wellness Menu</h1>
+            <p className="text-xs text-muted-foreground">Select habits to add to your 30-day protocol</p>
+          </div>
         </div>
       </div>
 
-      {/* Scrollable content */}
-      <div className="flex-1 overflow-y-auto px-5 py-2 pb-6">
+      {/* Habit categories */}
+      <div className="px-5 py-4">
         {Object.entries(HABIT_LIBRARY).map(([category, habits]) => {
           const Icon = CATEGORY_ICONS[category] || Sun;
           const bgColor = CATEGORY_COLORS[category];
@@ -165,33 +179,24 @@ export default function HabitLibrarySheet({ activeHabits, onSave, onClose }) {
                 <Icon className="w-4 h-4" style={{ color: '#003300' }} />
                 <h4 className="text-sm font-semibold" style={{ color: '#003300' }}>{category}</h4>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-col gap-2">
                 {habits.map((habit) => (
-                  <div key={habit} className="flex items-center gap-1">
-                    <button
-                      onClick={() => toggleHabit(habit)}
-                      className={`px-3 py-2 rounded-full text-xs font-medium border-2 transition-all ${
-                        selected.includes(habit)
-                          ? "bg-[#0202FB] border-[#0202FB] text-white"
-                          : "bg-white border-white text-foreground hover:border-gray-300"
-                      }`}
-                    >
-                      {habit}
-                    </button>
-                    <HabitInfoPopover habitName={habit} />
-                  </div>
+                  <HabitChip
+                    key={habit}
+                    habit={habit}
+                    selected={selected.includes(habit)}
+                    onToggle={toggleHabit}
+                  />
                 ))}
               </div>
             </div>
           );
         })}
-      </div>
 
-      {/* Sticky footer */}
-      <div className="p-5 border-t border-border bg-card pb-10 flex-shrink-0">
+        {/* CTA Button — end of list */}
         <Button
           onClick={() => onSave(selected)}
-          className="w-full h-14 rounded-full font-heading text-base text-white"
+          className="w-fit px-10 mx-auto block mt-10 mb-20 h-14 rounded-full font-heading text-base text-white"
           style={{ backgroundColor: '#0202FB' }}
         >
           Start My 30-Day Protocol ({selected.length} habits)
