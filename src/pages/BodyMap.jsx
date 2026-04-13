@@ -1,17 +1,44 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
-import { RotateCcw } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
 import BodySvgFront from "../components/body/BodySvgFront";
 import BodySvgBack from "../components/body/BodySvgBack";
 import RegionBottomSheet from "../components/body/RegionBottomSheet";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function BodyMap() {
+  const [mainTab, setMainTab] = useState("body");
   const [view, setView] = useState("front");
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [regionData, setRegionData] = useState({});
   const [loading, setLoading] = useState(true);
+
+  // Systemic tracker state
+  const [mcasSymptoms, setMcasSymptoms] = useState([]);
+  const [exhaustion, setExhaustion] = useState(5);
+  const [migraineIntensity, setMigraineIntensity] = useState(1);
+  const [cyclePhase, setCyclePhase] = useState("N/A");
+  const [systemicSaved, setSystemicSaved] = useState(false);
+
+  const MCAS_OPTIONS = ["Rash/Hives", "Itchy Skin", "Flushing", "Headache"];
+  const CYCLE_PHASES = ["Menses", "Follicular", "Ovulation", "Luteal", "N/A"];
+
+  const toggleMcas = (item) =>
+    setMcasSymptoms((prev) =>
+      prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
+    );
+
+  const saveSystemic = async () => {
+    const today = new Date().toISOString().split("T")[0];
+    await base44.entities.DailyCheckIn.create({
+      check_in_type: "symptom_deep_dive",
+      check_in_date: today,
+      triggers: mcasSymptoms,
+      notes: JSON.stringify({ exhaustion, migraineIntensity, cyclePhase }),
+    });
+    setSystemicSaved(true);
+  };
 
   useEffect(() => {
     loadRegionData();
@@ -77,7 +104,103 @@ export default function BodyMap() {
         <p className="text-sm text-muted-foreground mt-1">Tap a region to log tissue quality</p>
       </div>
 
-      {/* View Toggle */}
+      {/* Main Tab Toggle */}
+      <div className="px-5 mb-4">
+        <div className="flex bg-muted rounded-xl p-1">
+          <button
+            onClick={() => setMainTab("body")}
+            className={`flex-1 py-2.5 rounded-lg text-sm font-medium transition-all ${
+              mainTab === "body" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
+            }`}
+          >
+            Body View
+          </button>
+          <button
+            onClick={() => setMainTab("systemic")}
+            className={`flex-1 py-2.5 rounded-lg text-sm font-medium transition-all ${
+              mainTab === "systemic" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
+            }`}
+          >
+            Systemic View
+          </button>
+        </div>
+      </div>
+
+      {/* Systemic View */}
+      {mainTab === "systemic" && (
+        <div className="px-5 pb-10 space-y-6">
+          {/* MCAS Symptoms */}
+          <div className="bg-card rounded-2xl p-5 border border-border">
+            <h3 className="font-heading text-base text-pakistani-green mb-3">MCAS Symptoms</h3>
+            <div className="flex flex-wrap gap-2">
+              {MCAS_OPTIONS.map((opt) => (
+                <button
+                  key={opt}
+                  onClick={() => toggleMcas(opt)}
+                  className={`px-3 py-2 rounded-full text-xs font-medium border-2 transition-all ${
+                    mcasSymptoms.includes(opt)
+                      ? "border-electric-blue bg-blue-50 text-electric-blue"
+                      : "border-border text-muted-foreground hover:border-muted-foreground"
+                  }`}
+                >
+                  {opt}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Sliders */}
+          <div className="bg-card rounded-2xl p-5 border border-border space-y-5">
+            <div>
+              <div className="flex justify-between mb-2">
+                <span className="text-sm font-medium">Exhaustion</span>
+                <span className="text-sm font-heading text-dynamic-red">{exhaustion}</span>
+              </div>
+              <Slider value={[exhaustion]} onValueChange={([v]) => setExhaustion(v)} min={1} max={10} step={1} />
+              <div className="flex justify-between text-xs text-muted-foreground mt-1"><span>Low</span><span>High</span></div>
+            </div>
+            <div>
+              <div className="flex justify-between mb-2">
+                <span className="text-sm font-medium">Migraine Intensity</span>
+                <span className="text-sm font-heading text-dynamic-red">{migraineIntensity}</span>
+              </div>
+              <Slider value={[migraineIntensity]} onValueChange={([v]) => setMigraineIntensity(v)} min={1} max={10} step={1} />
+              <div className="flex justify-between text-xs text-muted-foreground mt-1"><span>Mild</span><span>Severe</span></div>
+            </div>
+          </div>
+
+          {/* Menstrual Cycle Phase */}
+          <div className="bg-card rounded-2xl p-5 border border-border">
+            <h3 className="font-heading text-base text-pakistani-green mb-3">Menstrual Cycle Phase</h3>
+            <div className="flex flex-wrap gap-2">
+              {CYCLE_PHASES.map((phase) => (
+                <button
+                  key={phase}
+                  onClick={() => setCyclePhase(phase)}
+                  className={`px-3 py-2 rounded-full text-xs font-medium border-2 transition-all ${
+                    cyclePhase === phase
+                      ? "border-electric-blue bg-blue-50 text-electric-blue"
+                      : "border-border text-muted-foreground hover:border-muted-foreground"
+                  }`}
+                >
+                  {phase}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <Button
+            onClick={saveSystemic}
+            disabled={systemicSaved}
+            className="w-full h-12 bg-electric-blue hover:bg-blue-700 text-white font-medium rounded-full"
+          >
+            {systemicSaved ? "Saved ✓" : "Save Systemic Log"}
+          </Button>
+        </div>
+      )}
+
+      {/* View Toggle — only shown in Body tab */}
+      {mainTab === "body" && <>
       <div className="px-5 mb-4">
         <div className="flex bg-muted rounded-xl p-1">
           <button
@@ -174,6 +297,7 @@ export default function BodyMap() {
           </>
         )}
       </AnimatePresence>
+      </>}
     </div>
   );
 }
