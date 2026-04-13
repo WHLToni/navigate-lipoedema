@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 const SKIN_OPTIONS = ["Cold", "Woody", "Loose/Concertina", "Velvety", "Healthy/Warm"];
 const FAT_OPTIONS = ["Spongy/Fluffy", "Heavy", "Painful", "Hard", "Congested/Thick"];
 
-export default function RegionBottomSheet({ region, existingData, onSave, onClose }) {
+export default function RegionBottomSheet({ region, existingData, onSave, onClear, onClose }) {
   const [skinQuality, setSkinQuality] = useState(existingData?.skin_quality || []);
   const [fatQuality, setFatQuality] = useState(existingData?.fat_quality || []);
   const [painScore, setPainScore] = useState(existingData?.pain_score || 5);
@@ -113,13 +113,24 @@ export default function RegionBottomSheet({ region, existingData, onSave, onClos
           </div>
         </div>
 
-        {/* Save */}
-        <Button
-          onClick={handleSave}
-          className="mx-auto h-12 bg-electric-blue hover:bg-blue-700 text-white font-medium text-base rounded-full px-10 flex"
-        >
-          Save Region Data
-        </Button>
+        {/* Actions */}
+        <div className="flex gap-3">
+          {existingData && (
+            <Button
+              variant="outline"
+              onClick={() => onClear(region.id)}
+              className="flex-1 h-12 border-dynamic-red text-dynamic-red hover:bg-red-50 rounded-full"
+            >
+              Remove Log
+            </Button>
+          )}
+          <Button
+            onClick={handleSave}
+            className={`h-12 bg-electric-blue hover:bg-blue-700 text-white font-medium text-base rounded-full px-10 ${existingData ? 'flex-1' : 'mx-auto flex'}`}
+          >
+            Save Region Data
+          </Button>
+        </div>
       </div>
     </motion.div>
   );

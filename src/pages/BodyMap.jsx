@@ -17,10 +17,13 @@ export default function BodyMap() {
     loadRegionData();
   }, []);
 
+  const today = new Date().toISOString().split("T")[0];
+
   const loadRegionData = async () => {
     const logs = await base44.entities.BodyRegionLog.filter({});
     const latest = {};
     logs.forEach((log) => {
+      if (!log.log_date?.startsWith(today)) return; // only show today's logs
       const existing = latest[log.region_id];
       if (!existing || new Date(log.log_date) > new Date(existing.log_date)) {
         latest[log.region_id] = log;
@@ -43,6 +46,18 @@ export default function BodyMap() {
       ...prev,
       [data.region_id]: data,
     }));
+    setSelectedRegion(null);
+  };
+
+  const handleClear = async (regionId) => {
+    const logs = await base44.entities.BodyRegionLog.filter({});
+    const toDelete = logs.filter((l) => l.region_id === regionId && l.log_date?.startsWith(today));
+    await Promise.all(toDelete.map((l) => base44.entities.BodyRegionLog.delete(l.id)));
+    setRegionData((prev) => {
+      const next = { ...prev };
+      delete next[regionId];
+      return next;
+    });
     setSelectedRegion(null);
   };
 
@@ -153,6 +168,7 @@ export default function BodyMap() {
               region={selectedRegion}
               existingData={regionData[selectedRegion.id]}
               onSave={handleSave}
+              onClear={handleClear}
               onClose={() => setSelectedRegion(null)}
             />
           </>
