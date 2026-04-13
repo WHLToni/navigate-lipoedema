@@ -46,7 +46,7 @@ export default function BodySvgBack({ regionData = {}, onRegionTap, selectedRegi
       className="w-full max-w-[220px] mx-auto"
       style={{ fillRule: "evenodd", clipRule: "evenodd", strokeLinecap: "round", strokeLinejoin: "round" }}
     >
-      {/* Body outline — mirrored horizontally using scale(-1,1) translate */}
+      {/* Body outline — rendered first, non-interactive */}
       <g transform="matrix(0.97945,0,0,0.97945,-86.170,-225.135)" style={{ pointerEvents: 'none' }}>
         <g transform="translate(282.78, 0) scale(-1, 1)">
           <path
@@ -55,26 +55,25 @@ export default function BodySvgBack({ regionData = {}, onRegionTap, selectedRegi
           />
         </g>
       </g>
-
       <ellipse cx="51.5" cy="8" rx="10" ry="12" fill="white" stroke="#FB4002" strokeWidth="1" style={{ pointerEvents: 'none' }}/>
 
-      {/* Tappable regions — mirrored x positions (103 - x - width) */}
-      <rect style={regionStyle("upper-back")}            x="38" y="22" width="27" height="18" rx="2" onClick={() => handleTap("upper-back")} />
-      <rect style={regionStyle("lower-back")}            x="36" y="40" width="31" height="22" rx="2" onClick={() => handleTap("lower-back")} />
-      <rect style={regionStyle("back-left-hip")}         x="57" y="62" width="22" height="18" rx="2" onClick={() => handleTap("back-left-hip")} />
-      <rect style={regionStyle("back-right-hip")}        x="24" y="62" width="22" height="18" rx="2" onClick={() => handleTap("back-right-hip")} />
-      <rect style={regionStyle("back-left-upper-thigh")} x="59" y="80" width="18" height="30" rx="2" onClick={() => handleTap("back-left-upper-thigh")} />
+      {/* Tappable regions */}
+      <rect style={regionStyle("upper-back")}             x="38" y="22" width="27" height="18" rx="2" onClick={() => handleTap("upper-back")} />
+      <rect style={regionStyle("lower-back")}             x="36" y="40" width="31" height="22" rx="2" onClick={() => handleTap("lower-back")} />
+      <rect style={regionStyle("back-left-hip")}          x="57" y="62" width="22" height="18" rx="2" onClick={() => handleTap("back-left-hip")} />
+      <rect style={regionStyle("back-right-hip")}         x="24" y="62" width="22" height="18" rx="2" onClick={() => handleTap("back-right-hip")} />
+      <rect style={regionStyle("back-left-upper-thigh")}  x="59" y="80" width="18" height="30" rx="2" onClick={() => handleTap("back-left-upper-thigh")} />
       <rect style={regionStyle("back-right-upper-thigh")} x="26" y="80" width="18" height="30" rx="2" onClick={() => handleTap("back-right-upper-thigh")} />
-      <rect style={regionStyle("back-left-knee")}        x="60" y="110" width="16" height="14" rx="2" onClick={() => handleTap("back-left-knee")} />
-      <rect style={regionStyle("back-right-knee")}       x="27" y="110" width="16" height="14" rx="2" onClick={() => handleTap("back-right-knee")} />
-      <rect style={regionStyle("back-left-calf")}         x="61" y="124" width="15" height="70" rx="2" onClick={() => handleTap("back-left-calf")} />
-      <rect style={regionStyle("back-right-calf")}        x="27" y="124" width="15" height="70" rx="2" onClick={() => handleTap("back-right-calf")} />
-      <rect style={regionStyle("back-left-ankle")}        x="61" y="196" width="15" height="58" rx="2" onClick={() => handleTap("back-left-ankle")} />
-      <rect style={regionStyle("back-right-ankle")}       x="27" y="196" width="15" height="58" rx="2" onClick={() => handleTap("back-right-ankle")} />
-      <path style={regionStyle("back-left-upper-arm")}   d="M87,27 C93,30 96,38 95,46 C94,52 91,58 89,64 L83,62 C85,56 87,50 87,44 C87,38 85,31 81,28 Z" onClick={() => handleTap("back-left-upper-arm")} />
-      <path style={regionStyle("back-right-upper-arm")}  d="M16,27 C10,30 7,38 8,46 C9,52 12,58 14,64 L20,62 C18,56 16,50 16,44 C16,38 18,31 22,28 Z" onClick={() => handleTap("back-right-upper-arm")} />
-      <path style={regionStyle("back-left-forearm")}     d="M89,64 C92,72 94,82 94,90 C94,96 93,100 91,104 L85,102 C87,98 87,92 87,86 C87,78 85,70 83,62 Z" onClick={() => handleTap("back-left-forearm")} />
-      <path style={regionStyle("back-right-forearm")}    d="M14,64 C11,72 9,82 9,90 C9,96 10,100 12,104 L18,102 C16,98 16,92 16,86 C16,78 18,70 20,62 Z" onClick={() => handleTap("back-right-forearm")} />
+      <rect style={regionStyle("back-left-knee")}         x="53" y="110" width="14" height="14" rx="2" onClick={() => handleTap("back-left-knee")} />
+      <rect style={regionStyle("back-right-knee")}        x="36" y="110" width="14" height="14" rx="2" onClick={() => handleTap("back-right-knee")} />
+      <rect style={regionStyle("back-left-calf")}         x="53" y="124" width="14" height="70" rx="2" onClick={() => handleTap("back-left-calf")} />
+      <rect style={regionStyle("back-right-calf")}        x="36" y="124" width="14" height="70" rx="2" onClick={() => handleTap("back-right-calf")} />
+      <rect style={regionStyle("back-left-ankle")}        x="53" y="196" width="14" height="58" rx="2" onClick={() => handleTap("back-left-ankle")} />
+      <rect style={regionStyle("back-right-ankle")}       x="36" y="196" width="14" height="58" rx="2" onClick={() => handleTap("back-right-ankle")} />
+      <path style={regionStyle("back-left-upper-arm")}    d="M87,27 C93,30 96,38 95,46 C94,52 91,58 89,64 L83,62 C85,56 87,50 87,44 C87,38 85,31 81,28 Z" onClick={() => handleTap("back-left-upper-arm")} />
+      <path style={regionStyle("back-right-upper-arm")}   d="M16,27 C10,30 7,38 8,46 C9,52 12,58 14,64 L20,62 C18,56 16,50 16,44 C16,38 18,31 22,28 Z" onClick={() => handleTap("back-right-upper-arm")} />
+      <path style={regionStyle("back-left-forearm")}      d="M89,64 C92,72 94,82 94,90 C94,96 93,100 91,104 L85,102 C87,98 87,92 87,86 C87,78 85,70 83,62 Z" onClick={() => handleTap("back-left-forearm")} />
+      <path style={regionStyle("back-right-forearm")}     d="M14,64 C11,72 9,82 9,90 C9,96 10,100 12,104 L18,102 C16,98 16,92 16,86 C16,78 18,70 20,62 Z" onClick={() => handleTap("back-right-forearm")} />
     </svg>
   );
 }
