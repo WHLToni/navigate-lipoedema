@@ -140,8 +140,8 @@ export default function HabitLibrarySheet({ activeHabits, onSave, onClose }) {
             <ArrowLeft className="w-5 h-5" style={{ color: '#003300' }} />
           </button>
           <div>
-            <h1 className="font-heading text-2xl" style={{ color: '#003300' }}>Wellness Menu</h1>
-            <p className="text-xs text-muted-foreground">Select habits to add to your 30-day protocol</p>
+            <h1 className="font-heading text-2xl" style={{ color: '#003300' }}>Conservative Therapies</h1>
+            <p className="text-xs text-muted-foreground">Select therapies to add to your 30-day protocol. Tap the info icon (i) to learn how each supports lipoedema tissue.</p>
           </div>
         </div>
       </div>
@@ -181,7 +181,7 @@ export default function HabitLibrarySheet({ activeHabits, onSave, onClose }) {
           className="w-fit px-10 mx-auto block mt-10 mb-20 h-14 rounded-full font-heading text-base text-white"
           style={{ backgroundColor: '#0202FB' }}
         >
-          Start My 30-Day Protocol ({selected.length} habits)
+          Start 30-Day Protocol ({selected.length} therapies)
         </Button>
       </div>
     </div>
