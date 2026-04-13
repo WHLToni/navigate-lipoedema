@@ -55,7 +55,7 @@ export default function BodySvgFront({ regionData = {}, onRegionTap, selectedReg
           style={{ fill: "white", stroke: "#FB4002", strokeWidth: "1.02px" }}
         />
       </g>
-      <ellipse cx="51.5" cy="8" rx="10" ry="12" fill="white" stroke="#FB4002" strokeWidth="1" style={{ pointerEvents: 'none' }}/>
+
 
       {/* Chest */}
       <rect style={regionStyle("chest")} x="36" y="12" width="31" height="25" rx="2" onClick={() => handleTap("chest")} />

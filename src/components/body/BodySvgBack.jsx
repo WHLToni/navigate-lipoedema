@@ -55,7 +55,7 @@ export default function BodySvgBack({ regionData = {}, onRegionTap, selectedRegi
           />
         </g>
       </g>
-      <ellipse cx="51.5" cy="8" rx="10" ry="12" fill="white" stroke="#FB4002" strokeWidth="1" style={{ pointerEvents: 'none' }}/>
+
 
       {/* Tappable regions */}
       <rect style={regionStyle("upper-back")}             x="38" y="22" width="27" height="18" rx="2" onClick={() => handleTap("upper-back")} />
