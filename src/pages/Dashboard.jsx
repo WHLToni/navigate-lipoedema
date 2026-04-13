@@ -116,12 +116,18 @@ export default function Dashboard() {
   // Experiment Results
   const experimentResults = [];
   const activeHabits = profile?.active_habits || [];
+
+  // Helper: parse systemic notes from DailyCheckIn
+  const getSystemic = (checkIn) => {
+    try { return JSON.parse(checkIn.notes || "{}"); } catch { return {}; }
+  };
+
   activeHabits.forEach((habitName) => {
     const completed = habitLogs.filter(
       (l) => l.habit_name === habitName && l.status === "completed"
     );
     const uniqueDays = [...new Set(completed.map((l) => l.log_date?.split("T")[0]))].sort();
-    if (uniqueDays.length < 14) return; // need at least 14 days of data
+    if (uniqueDays.length < 14) return;
 
     const first7Days = new Set(uniqueDays.slice(0, 7));
     const last7Days = new Set(uniqueDays.slice(-7));
@@ -151,6 +157,47 @@ export default function Dashboard() {
         type: "neutral",
       });
     }
+
+    // MCAS insight for Low Histamine Diet
+    if (habitName === "Low Histamine Diet") {
+      const mcasFirst = checkIns
+        .filter((c) => first7Days.has(c.check_in_date))
+        .reduce((s, c) => s + (c.triggers?.length || 0), 0);
+      const mcasLast = checkIns
+        .filter((c) => last7Days.has(c.check_in_date))
+        .reduce((s, c) => s + (c.triggers?.length || 0), 0);
+      if (mcasFirst > mcasLast && mcasFirst > 0) {
+        const mcasPct = Math.round(((mcasFirst - mcasLast) / mcasFirst) * 100);
+        experimentResults.push({
+          title: "MCAS Response",
+          description: `Low Histamine Diet correlates with a ${mcasPct}% decrease in MCAS symptom events over your protocol period.`,
+          icon: "🌿",
+          type: "win",
+        });
+      }
+    }
+
+    // Exhaustion insight
+    const exhaustFirst = checkIns
+      .filter((c) => first7Days.has(c.check_in_date))
+      .map((c) => getSystemic(c).exhaustion)
+      .filter(Boolean);
+    const exhaustLast = checkIns
+      .filter((c) => last7Days.has(c.check_in_date))
+      .map((c) => getSystemic(c).exhaustion)
+      .filter(Boolean);
+    if (exhaustFirst.length > 0 && exhaustLast.length > 0) {
+      const avgExFirst = exhaustFirst.reduce((a, b) => a + b, 0) / exhaustFirst.length;
+      const avgExLast = exhaustLast.reduce((a, b) => a + b, 0) / exhaustLast.length;
+      if (avgExFirst - avgExLast > 1) {
+        experimentResults.push({
+          title: "Energy Improvement",
+          description: `Exhaustion scores dropped from ${avgExFirst.toFixed(1)} → ${avgExLast.toFixed(1)} while practising ${habitName}.`,
+          icon: "⚡",
+          type: "win",
+        });
+      }
+    }
   });
 
   // Trigger alerts
@@ -178,6 +225,31 @@ export default function Dashboard() {
         }
       });
   }
+
+  // Cycle-phase correlation insight
+  const cycleInsight = (() => {
+    const lutealMensesCheckins = checkIns.filter((c) => {
+      const phase = (() => { try { return JSON.parse(c.notes || "{}").cyclePhase; } catch { return null; } })();
+      return phase === "Luteal" || phase === "Menses";
+    });
+    if (lutealMensesCheckins.length < 2) return null;
+    const painDates = new Set(lutealMensesCheckins.map((c) => c.check_in_date));
+    const relevantPain = bodyLogs.filter((l) => painDates.has(l.log_date?.split("T")[0]));
+    if (relevantPain.length === 0) return null;
+    const avgPain = relevantPain.reduce((s, l) => s + (l.pain_score || 0), 0) / relevantPain.length;
+    const overallAvg = bodyLogs.length > 0
+      ? bodyLogs.reduce((s, l) => s + (l.pain_score || 0), 0) / bodyLogs.length
+      : 0;
+    if (avgPain - overallAvg > 1) {
+      return {
+        title: "Cycle-Linked Pain Pattern",
+        description: `Your pain scores average ${avgPain.toFixed(1)} during Luteal/Menses phases vs ${overallAvg.toFixed(1)} overall. Consider extra support during these phases.`,
+        icon: "🌙",
+        type: "alert",
+      };
+    }
+    return null;
+  })();
 
   // Chart data
   const chartData = buildChartData(bodyLogs, medLogs);
@@ -261,6 +333,16 @@ export default function Dashboard() {
               <InsightCard key={i} type="alert" {...alert} delay={i * 0.1} />
             ))}
           </div>
+        </div>
+      )}
+
+      {/* Cycle Insight */}
+      {cycleInsight && (
+        <div className="px-5 mb-5">
+          <h2 className="font-heading text-lg text-pakistani-green mb-3 flex items-center gap-2">
+            🌙 Cycle Awareness
+          </h2>
+          <InsightCard type="alert" {...cycleInsight} delay={0} />
         </div>
       )}
 
