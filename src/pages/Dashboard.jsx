@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
-import { FileText, TrendingUp, AlertTriangle, Trophy } from "lucide-react";
+import { FileText, TrendingUp, AlertTriangle, Trophy, ChevronDown, ChevronUp } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { format, parseISO } from "date-fns";
 import { motion } from "framer-motion";
 import InsightCard from "../components/dashboard/InsightCard";
 import ExportModal from "../components/dashboard/ExportModal";
@@ -15,6 +16,42 @@ export default function Dashboard() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showExport, setShowExport] = useState(false);
+  const [deepRegion, setDeepRegion] = useState("all");
+  const [deepView, setDeepView] = useState("chart");
+  const [logExpanded, setLogExpanded] = useState(false);
+
+  const QUALITY_BADGE_COLORS = {
+    "Cold": "bg-blue-100 text-blue-700",
+    "Woody": "bg-indigo-100 text-indigo-700",
+    "Loose/Concertina": "bg-amber-100 text-amber-700",
+    "Velvety": "bg-purple-100 text-purple-700",
+    "Healthy/Warm": "bg-green-100 text-green-700",
+    "Spongy/Fluffy": "bg-sky-100 text-sky-700",
+    "Heavy": "bg-slate-100 text-slate-700",
+    "Painful": "bg-red-100 text-red-700",
+    "Hard": "bg-orange-100 text-orange-700",
+    "Congested/Thick": "bg-rose-100 text-rose-700",
+  };
+
+  const allRegions = [...new Set(bodyLogs.map((l) => l.region_id))].sort();
+  const formatRegionLabel = (id) => id?.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) || id;
+
+  const deepFilteredLogs = deepRegion === "all" ? bodyLogs : bodyLogs.filter((l) => l.region_id === deepRegion);
+
+  const deepChartData = (() => {
+    const byDate = {};
+    deepFilteredLogs.forEach((log) => {
+      const date = log.log_date?.split("T")[0];
+      if (!date) return;
+      if (!byDate[date]) byDate[date] = { date, total: 0, count: 0 };
+      byDate[date].total += log.pain_score || 0;
+      byDate[date].count += 1;
+    });
+    return Object.values(byDate)
+      .map((d) => ({ date: d.date, pain: parseFloat((d.total / d.count).toFixed(1)) }))
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .slice(-30);
+  })();
 
   useEffect(() => {
     loadAllData();
@@ -275,6 +312,122 @@ export default function Dashboard() {
           </div>
         </div>
       )}
+
+      {/* Deep Dive Section */}
+      <div className="px-5 mb-5">
+        <h2 className="font-heading text-lg mb-3" style={{ color: '#003300' }}>Deep Dive</h2>
+
+        {/* Controls */}
+        <div className="flex gap-3 mb-4">
+          <div className="relative flex-1">
+            <select
+              value={deepRegion}
+              onChange={(e) => setDeepRegion(e.target.value)}
+              className="w-full appearance-none bg-card border border-border rounded-xl px-4 py-2.5 text-sm pr-8 focus:outline-none focus:ring-2 focus:ring-electric-blue"
+              style={{ color: '#003300' }}
+            >
+              <option value="all">All Regions</option>
+              {allRegions.map((r) => (
+                <option key={r} value={r}>{formatRegionLabel(r)}</option>
+              ))}
+            </select>
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+          </div>
+          <div className="flex bg-muted rounded-xl p-1 gap-1">
+            <button
+              onClick={() => setDeepView("chart")}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${deepView === "chart" ? "bg-card shadow" : "text-muted-foreground"}`}
+              style={deepView === "chart" ? { color: '#003300' } : {}}
+            >Chart</button>
+            <button
+              onClick={() => setDeepView("list")}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${deepView === "list" ? "bg-card shadow" : "text-muted-foreground"}`}
+              style={deepView === "list" ? { color: '#003300' } : {}}
+            >List</button>
+          </div>
+        </div>
+
+        {/* Chart View */}
+        {deepView === "chart" && (
+          <div className="bg-card border border-border rounded-2xl p-4">
+            <p className="text-xs text-muted-foreground mb-3">
+              {deepRegion === "all" ? "Avg pain — all regions" : `${formatRegionLabel(deepRegion)} pain trend`} · last 30 days
+            </p>
+            {deepChartData.length < 2 ? (
+              <p className="text-sm text-muted-foreground text-center py-6">Not enough data points yet.</p>
+            ) : (
+              <ResponsiveContainer width="100%" height={200}>
+                <LineChart data={deepChartData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <XAxis dataKey="date" tick={{ fontSize: 10 }} tickFormatter={(d) => { try { return format(parseISO(d), "MMM d"); } catch { return d; } }} />
+                  <YAxis domain={[0, 10]} tick={{ fontSize: 10 }} width={24} />
+                  <Tooltip formatter={(v) => [v, "Avg Pain"]} labelFormatter={(d) => { try { return format(parseISO(d), "MMM d, yyyy"); } catch { return d; } }} />
+                  <Line type="monotone" dataKey="pain" stroke="#FB4002" strokeWidth={2} dot={{ r: 3, fill: "#FB4002" }} activeDot={{ r: 5 }} />
+                </LineChart>
+              </ResponsiveContainer>
+            )}
+            {deepRegion !== "all" && deepFilteredLogs.length > 0 && (
+              <div className="mt-4">
+                <p className="text-xs text-muted-foreground mb-2">Recent skin quality tags</p>
+                <div className="flex flex-wrap gap-2">
+                  {[...new Set(deepFilteredLogs.flatMap((l) => l.skin_quality || []))].map((q) => (
+                    <span key={q} className={`px-2.5 py-1 rounded-full text-xs font-medium ${QUALITY_BADGE_COLORS[q] || "bg-muted text-muted-foreground"}`}>{q}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* List View — Full Symptom Log accordion */}
+        {deepView === "list" && (
+          <div className="bg-card border border-border rounded-2xl overflow-hidden">
+            <button
+              onClick={() => setLogExpanded((v) => !v)}
+              className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold"
+              style={{ color: '#003300' }}
+            >
+              Full Symptom Log ({deepFilteredLogs.length})
+              {logExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
+            {logExpanded && (
+              <div className="divide-y divide-border">
+                {deepFilteredLogs.length === 0 ? (
+                  <p className="px-4 py-6 text-sm text-muted-foreground text-center">No logs found.</p>
+                ) : (
+                  deepFilteredLogs.map((log) => (
+                    <div key={log.id} className="p-4">
+                      <div className="flex items-start justify-between mb-1">
+                        <div>
+                          <p className="text-sm font-semibold">{formatRegionLabel(log.region_id)}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {log.log_date ? (() => { try { return format(parseISO(log.log_date), "EEE d MMM yyyy"); } catch { return log.log_date; } })() : "—"}
+                          </p>
+                        </div>
+                        <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold ${
+                          log.pain_score >= 7 ? "bg-red-100 text-dynamic-red" :
+                          log.pain_score >= 4 ? "bg-amber-100 text-amber-700" :
+                          "bg-tea-green text-pakistani-green"
+                        }`}>{log.pain_score}</div>
+                      </div>
+                      {(log.skin_quality?.length > 0 || log.fat_quality?.length > 0) && (
+                        <div className="flex flex-wrap gap-1.5 mt-1">
+                          {(log.skin_quality || []).map((q) => (
+                            <span key={q} className={`px-2 py-0.5 rounded-full text-xs ${QUALITY_BADGE_COLORS[q] || "bg-muted text-muted-foreground"}`}>{q}</span>
+                          ))}
+                          {(log.fat_quality || []).map((q) => (
+                            <span key={q} className={`px-2 py-0.5 rounded-full text-xs ${QUALITY_BADGE_COLORS[q] || "bg-muted text-muted-foreground"}`}>{q}</span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
 
       {/* Export Button */}
       <div className="px-5 pb-6">
