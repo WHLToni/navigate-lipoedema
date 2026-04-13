@@ -202,26 +202,26 @@ export default function BodyMap() {
       {/* View Toggle — only shown in Body tab */}
       {mainTab === "body" && <>
       <div className="px-5 mb-4">
-        <div className="flex bg-muted rounded-xl p-1">
+        <div className="grid grid-cols-4 gap-2">
           <button
             onClick={() => setView("front")}
-            className={`flex-1 py-2.5 rounded-lg text-sm font-medium transition-all ${
+            className={`py-2.5 rounded-lg text-sm font-medium transition-all ${
               view === "front"
-                ? "bg-card text-foreground shadow-sm"
-                : "text-muted-foreground"
+                ? "bg-card text-foreground shadow-sm border border-border"
+                : "text-muted-foreground bg-muted"
             }`}
           >
-            Front View
+            Front
           </button>
           <button
             onClick={() => setView("back")}
-            className={`flex-1 py-2.5 rounded-lg text-sm font-medium transition-all ${
+            className={`py-2.5 rounded-lg text-sm font-medium transition-all ${
               view === "back"
-                ? "bg-card text-foreground shadow-sm"
-                : "text-muted-foreground"
+                ? "bg-card text-foreground shadow-sm border border-border"
+                : "text-muted-foreground bg-muted"
             }`}
           >
-            Back View
+            Back
           </button>
         </div>
       </div>
