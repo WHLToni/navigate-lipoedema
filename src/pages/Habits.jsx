@@ -238,16 +238,14 @@ export default function Habits() {
         </div>
       </div>
 
-      {/* Library Sheet */}
-      <AnimatePresence>
-        {showLibrary && (
-          <HabitLibrarySheet
-            activeHabits={activeHabits}
-            onSave={handleHabitsUpdate}
-            onClose={() => setShowLibrary(false)}
-          />
-        )}
-      </AnimatePresence>
+      {/* Library — full-screen */}
+      {showLibrary && (
+        <HabitLibrarySheet
+          activeHabits={activeHabits}
+          onSave={handleHabitsUpdate}
+          onClose={() => setShowLibrary(false)}
+        />
+      )}
 
       {/* Trigger Logger */}
       <AnimatePresence>
