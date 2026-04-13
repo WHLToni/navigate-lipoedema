@@ -9,7 +9,7 @@ const HABIT_LIBRARY = {
     "Vibration — Massage Gun",
     "60Hz/128Hz Vibration — Tuning Fork",
     "Vibration Plate",
-    "Compression Tights",
+    "Compression Garments",
     "Compression Boots",
     "MLD Therapy",
     "Weight Lifting",

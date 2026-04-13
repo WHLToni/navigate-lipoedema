@@ -11,8 +11,10 @@ export const BACK_REGIONS = [
   { id: "back-right-upper-thigh", label: "Right Upper Thigh (Back)" },
   { id: "back-left-knee",         label: "Left Knee (Back)" },
   { id: "back-right-knee",        label: "Right Knee (Back)" },
-  { id: "back-left-lower-leg",    label: "Left Lower Leg (Back)" },
-  { id: "back-right-lower-leg",   label: "Right Lower Leg (Back)" },
+  { id: "back-left-calf",          label: "Left Calf (Back)" },
+  { id: "back-right-calf",         label: "Right Calf (Back)" },
+  { id: "back-left-ankle",         label: "Left Ankle (Back)" },
+  { id: "back-right-ankle",        label: "Right Ankle (Back)" },
 ];
 
 export default function BodySvgBack({ regionData = {}, onRegionTap, selectedRegion }) {
@@ -66,8 +68,10 @@ export default function BodySvgBack({ regionData = {}, onRegionTap, selectedRegi
       <rect style={regionStyle("back-right-upper-thigh")} x="26" y="80" width="18" height="30" rx="2" onClick={() => handleTap("back-right-upper-thigh")} />
       <rect style={regionStyle("back-left-knee")}        x="60" y="110" width="16" height="14" rx="2" onClick={() => handleTap("back-left-knee")} />
       <rect style={regionStyle("back-right-knee")}       x="27" y="110" width="16" height="14" rx="2" onClick={() => handleTap("back-right-knee")} />
-      <rect style={regionStyle("back-left-lower-leg")}   x="61" y="124" width="15" height="50" rx="2" onClick={() => handleTap("back-left-lower-leg")} />
-      <rect style={regionStyle("back-right-lower-leg")}  x="27" y="124" width="15" height="50" rx="2" onClick={() => handleTap("back-right-lower-leg")} />
+      <rect style={regionStyle("back-left-calf")}         x="61" y="124" width="15" height="36" rx="2" onClick={() => handleTap("back-left-calf")} />
+      <rect style={regionStyle("back-right-calf")}        x="27" y="124" width="15" height="36" rx="2" onClick={() => handleTap("back-right-calf")} />
+      <rect style={regionStyle("back-left-ankle")}        x="61" y="162" width="15" height="12" rx="2" onClick={() => handleTap("back-left-ankle")} />
+      <rect style={regionStyle("back-right-ankle")}       x="27" y="162" width="15" height="12" rx="2" onClick={() => handleTap("back-right-ankle")} />
       <path style={regionStyle("back-left-upper-arm")}   d="M87,27 C93,30 96,38 95,46 C94,52 91,58 89,64 L83,62 C85,56 87,50 87,44 C87,38 85,31 81,28 Z" onClick={() => handleTap("back-left-upper-arm")} />
       <path style={regionStyle("back-right-upper-arm")}  d="M16,27 C10,30 7,38 8,46 C9,52 12,58 14,64 L20,62 C18,56 16,50 16,44 C16,38 18,31 22,28 Z" onClick={() => handleTap("back-right-upper-arm")} />
       <path style={regionStyle("back-left-forearm")}     d="M89,64 C92,72 94,82 94,90 C94,96 93,100 91,104 L85,102 C87,98 87,92 87,86 C87,78 85,70 83,62 Z" onClick={() => handleTap("back-left-forearm")} />

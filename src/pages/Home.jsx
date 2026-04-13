@@ -232,7 +232,7 @@ export default function Home() {
               />
               <QuickActionCard
                 icon="🗺️"
-                label="Body Map"
+                label="Pain Map"
                 bgColor="bg-blue-50"
                 href="/body-map"
               />

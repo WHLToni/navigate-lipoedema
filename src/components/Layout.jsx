@@ -3,7 +3,7 @@ import { Home, Map, ListChecks, Pill, Settings } from "lucide-react";
 
 const navItems = [
   { path: "/", label: "Home", icon: Home },
-  { path: "/body-map", label: "Body Map", icon: Map },
+  { path: "/body-map", label: "Pain Map", icon: Map },
   { path: "/habits", label: "Habits", icon: ListChecks },
   { path: "/medication", label: "Medication", icon: Pill },
   { path: "/settings", label: "Settings", icon: Settings },

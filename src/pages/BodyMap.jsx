@@ -58,7 +58,7 @@ export default function BodyMap() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <div className="px-5 pt-8 pb-4">
-        <h1 className="font-heading text-2xl text-pakistani-green">Body Mapper</h1>
+        <h1 className="font-heading text-2xl text-pakistani-green">Pain Map</h1>
         <p className="text-sm text-muted-foreground mt-1">Tap a region to log tissue quality</p>
       </div>
 
