@@ -49,8 +49,6 @@ const CATEGORY_ICONS = {
   Supplements: FlaskConical,
 };
 
-
-
 export default function HabitLibrarySheet({ activeHabits, onSave, onClose }) {
   const [selected, setSelected] = useState([...activeHabits]);
 
@@ -76,12 +74,14 @@ export default function HabitLibrarySheet({ activeHabits, onSave, onClose }) {
         animate={{ y: 0 }}
         exit={{ y: "100%" }}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-        className="fixed inset-x-0 bottom-0 z-50 bg-card rounded-t-3xl border-t border-border shadow-2xl max-h-[90vh] overflow-y-auto"
+        className="fixed inset-x-0 bottom-0 z-50 bg-card rounded-t-3xl border-t border-border shadow-2xl max-h-[90vh] flex flex-col"
       >
-        <div className="flex justify-center pt-3 pb-1">
+        <div className="flex justify-center pt-3 pb-1 flex-shrink-0">
           <div className="w-10 h-1 bg-muted rounded-full" />
         </div>
-        <div className="px-5 pb-8">
+
+        {/* Scrollable content */}
+        <div className="px-5 overflow-y-auto flex-1 pb-2">
           <div className="flex items-center justify-between mb-5">
             <h3 className="font-heading text-xl text-pakistani-green">Habit Library</h3>
             <button onClick={onClose} className="p-2 rounded-full hover:bg-muted">
@@ -94,7 +94,7 @@ export default function HabitLibrarySheet({ activeHabits, onSave, onClose }) {
             return (
               <div key={category} className="mb-5">
                 <div className="flex items-center gap-2 mb-2">
-                  <Icon className="w-4 h-4 text-pakistani-green" />
+                  <Icon className="w-4 h-4" style={{ color: '#003300' }} />
                   <h4 className="text-sm font-semibold text-pakistani-green">{category}</h4>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -115,10 +115,14 @@ export default function HabitLibrarySheet({ activeHabits, onSave, onClose }) {
               </div>
             );
           })}
+        </div>
 
+        {/* Sticky footer */}
+        <div className="px-5 py-4 border-t border-border flex-shrink-0">
           <Button
             onClick={() => onSave(selected)}
-            className="mx-auto h-12 bg-electric-blue hover:bg-blue-700 text-white rounded-full font-medium mt-4 px-10 flex"
+            className="w-full h-12 text-white rounded-full font-medium"
+            style={{ backgroundColor: '#0202FB' }}
           >
             Save Protocol ({selected.length} habits)
           </Button>

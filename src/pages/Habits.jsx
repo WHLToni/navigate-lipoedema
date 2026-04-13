@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Check, X, Dumbbell, Salad, Sun, FlaskConical, Plus, ChevronDown } from "lucide-react";
+import HabitWhyTooltip from "../components/habits/HabitWhyTooltip";
 import { motion, AnimatePresence } from "framer-motion";
 import HabitLibrarySheet from "../components/habits/HabitLibrarySheet";
 import TriggerLogger from "../components/habits/TriggerLogger";
@@ -24,6 +25,8 @@ export default function Habits() {
   const hour = new Date().getHours();
   const isEvening = hour >= 17;
 
+  const [allLogs, setAllLogs] = useState([]);
+
   useEffect(() => {
     loadData();
   }, []);
@@ -34,22 +37,25 @@ export default function Habits() {
       setProfile(profiles[0]);
     }
     const logs = await base44.entities.HabitLog.filter({});
+    setAllLogs(logs);
     const todayOnly = logs.filter((l) => l.log_date?.startsWith(today));
     setTodayLogs(todayOnly);
     setLoading(false);
   };
 
   const logHabit = async (habitName, category, status) => {
-    await base44.entities.HabitLog.create({
-      habit_name: habitName,
-      category,
-      status,
-      log_date: new Date().toISOString(),
-    });
-    setTodayLogs((prev) => [
-      ...prev,
-      { habit_name: habitName, category, status, log_date: new Date().toISOString() },
-    ]);
+    const entry = { habit_name: habitName, category, status, log_date: new Date().toISOString() };
+    await base44.entities.HabitLog.create(entry);
+    setTodayLogs((prev) => [...prev, entry]);
+    setAllLogs((prev) => [...prev, entry]);
+  };
+
+  const getDayOfExperiment = (habitName) => {
+    const completed = allLogs.filter(
+      (l) => l.habit_name === habitName && l.status === "completed"
+    );
+    const uniqueDays = new Set(completed.map((l) => l.log_date?.split("T")[0]));
+    return Math.min(uniqueDays.size + 1, 30);
   };
 
   const handleHabitsUpdate = async (newHabits) => {
@@ -70,6 +76,16 @@ export default function Habits() {
 
   const activeHabits = profile?.active_habits || [];
   const loggedHabits = todayLogs.map((l) => l.habit_name);
+
+  // Calculate day-of-30 for each habit based on all-time logs
+  const getHabitDay = async () => {}; // placeholder — we use allLogs for streak
+
+  const getStreakDay = (habitName) => {
+    // Count distinct days this habit was completed (not skipped)
+    // Use todayLogs as a proxy; for full streak we'd need all logs
+    // For now, show a deterministic value based on log count
+    return 1; // Will be enriched when allLogs loaded
+  };
 
   return (
     <div className={`min-h-screen ${isEvening ? "bg-shampoo" : "bg-background"}`}>
@@ -108,11 +124,7 @@ export default function Habits() {
           </div>
         ) : (
           <>
-          {isEvening && activeHabits.length > 0 && (
-            <p className="text-xs text-muted-foreground px-1 mb-1">
-              Tap <strong>Done</strong> or <strong>Skip</strong> for each habit below.
-            </p>
-          )}
+
           {activeHabits.map((habit, i) => {
             const isLogged = loggedHabits.includes(habit);
             const logEntry = todayLogs.find((l) => l.habit_name === habit);
@@ -130,40 +142,58 @@ export default function Habits() {
                     : "border-border"
                 }`}
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
+                {/* Habit header row */}
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2 flex-1 min-w-0">
                     {isLogged && logEntry?.status === "completed" && (
-                      <div className="w-8 h-8 rounded-full bg-pakistani-green flex items-center justify-center">
-                        <Check className="w-4 h-4 text-white" />
+                      <div className="w-6 h-6 rounded-full bg-pakistani-green flex items-center justify-center flex-shrink-0">
+                        <Check className="w-3 h-3 text-white" />
                       </div>
                     )}
-                    {isLogged && logEntry?.status === "skipped" && (
-                      <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                        <X className="w-4 h-4 text-muted-foreground" />
-                      </div>
-                    )}
-                    <span className={`text-sm font-medium ${isLogged ? "line-through text-muted-foreground" : ""}`}>
+                    <span className={`text-sm font-medium truncate ${isLogged && logEntry?.status === "skipped" ? "line-through text-muted-foreground" : ""}`}>
                       {habit}
                     </span>
+                    <HabitWhyTooltip habitName={habit} />
                   </div>
 
                   {!isLogged && (
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 flex-shrink-0">
                       <button
                         onClick={() => logHabit(habit, "Mechanical", "completed")}
-                        className="px-4 py-2 rounded-full bg-electric-blue text-white text-xs font-semibold hover:scale-105 transition-transform"
+                        className="px-3 py-1.5 rounded-full text-white text-xs font-semibold hover:opacity-90 transition-opacity"
+                        style={{ backgroundColor: '#0202FB' }}
                       >
                         Done ✓
                       </button>
                       <button
                         onClick={() => logHabit(habit, "Mechanical", "skipped")}
-                        className="px-4 py-2 rounded-full bg-muted text-muted-foreground text-xs font-medium border border-border hover:scale-105 transition-transform"
+                        className="px-3 py-1.5 rounded-full bg-muted text-muted-foreground text-xs font-medium border border-border hover:opacity-80 transition-opacity"
                       >
                         Skip
                       </button>
                     </div>
                   )}
                 </div>
+
+                {/* Progress bar — Day X of 30 */}
+                {(() => {
+                  const day = getDayOfExperiment(habit);
+                  const pct = Math.round((day / 30) * 100);
+                  return (
+                    <div>
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="text-muted-foreground">30-day experiment</span>
+                        <span className="font-medium" style={{ color: '#0202FB' }}>Day {day} of 30</span>
+                      </div>
+                      <div className="h-2 rounded-full" style={{ backgroundColor: '#CCFFCC' }}>
+                        <div
+                          className="h-2 rounded-full transition-all"
+                          style={{ width: `${pct}%`, backgroundColor: '#0202FB' }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })()}
               </motion.div>
             );
           })}
