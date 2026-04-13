@@ -70,10 +70,10 @@ export default function BodySvgFront({ regionData = {}, onRegionTap, selectedReg
       <rect style={regionStyle("right-inner-thigh")} x="49" y="80" width="10" height="30" rx="2" onClick={() => handleTap("right-inner-thigh")} />
       <rect style={regionStyle("left-knee")}        x="27" y="110" width="16" height="14" rx="2" onClick={() => handleTap("left-knee")} />
       <rect style={regionStyle("right-knee")}       x="60" y="110" width="16" height="14" rx="2" onClick={() => handleTap("right-knee")} />
-      <rect style={regionStyle("left-calf")}         x="27" y="124" width="15" height="36" rx="2" onClick={() => handleTap("left-calf")} />
-      <rect style={regionStyle("right-calf")}        x="61" y="124" width="15" height="36" rx="2" onClick={() => handleTap("right-calf")} />
-      <rect style={regionStyle("left-ankle")}        x="27" y="162" width="15" height="12" rx="2" onClick={() => handleTap("left-ankle")} />
-      <rect style={regionStyle("right-ankle")}       x="61" y="162" width="15" height="12" rx="2" onClick={() => handleTap("right-ankle")} />
+      <rect style={regionStyle("left-calf")}         x="27" y="124" width="15" height="70" rx="2" onClick={() => handleTap("left-calf")} />
+      <rect style={regionStyle("right-calf")}        x="61" y="124" width="15" height="70" rx="2" onClick={() => handleTap("right-calf")} />
+      <rect style={regionStyle("left-ankle")}        x="27" y="196" width="15" height="58" rx="2" onClick={() => handleTap("left-ankle")} />
+      <rect style={regionStyle("right-ankle")}       x="61" y="196" width="15" height="58" rx="2" onClick={() => handleTap("right-ankle")} />
       <path style={regionStyle("left-upper-arm")}   d="M16,27 C10,30 7,38 8,46 C9,52 12,58 14,64 L20,62 C18,56 16,50 16,44 C16,38 18,31 22,28 Z" onClick={() => handleTap("left-upper-arm")} />
       <path style={regionStyle("right-upper-arm")}  d="M87,27 C93,30 96,38 95,46 C94,52 91,58 89,64 L83,62 C85,56 87,50 87,44 C87,38 85,31 81,28 Z" onClick={() => handleTap("right-upper-arm")} />
       <path style={regionStyle("left-forearm")}     d="M14,64 C11,72 9,82 9,90 C9,96 10,100 12,104 L18,102 C16,98 16,92 16,86 C16,78 18,70 20,62 Z" onClick={() => handleTap("left-forearm")} />
