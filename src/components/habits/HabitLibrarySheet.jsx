@@ -9,20 +9,13 @@ const HABIT_LIBRARY = {
     "Vibration — Massage Gun",
     "60Hz/128Hz Vibration — Tuning Fork",
     "Vibration Plate",
-    "Compression Garments",
-    "Compression Boots",
+    "Compression (Garments/Boots)",
     "MLD Therapy",
-    "Weight Lifting",
-    "Swimming",
-    "Ocean Swimming",
-    "Ultrasound Cavitation",
-    "Shockwave Therapy",
+    "Swimming/Ocean",
   ],
   Metabolic: [
-    "Keto Diet",
+    "Keto/Anti-Inflammatory Diet",
     "Low Histamine Diet",
-    "Anti-Inflammatory Diet",
-    "Fasting (24hr)",
     "GLP-1 Protocol",
   ],
   "Circadian / Environmental": [
@@ -32,13 +25,11 @@ const HABIT_LIBRARY = {
   ],
   Supplements: [
     "Vitamin C",
-    "Pine Bark Extract",
+    "Pine Bark Extract / Bioflavonoids",
     "Quercetin",
-    "Magnesium",
-    "Citrus Bioflavonoids",
     "Butcher's Broom",
     "L-Arginine",
-    "Psyllium Husk",
+    "Magnesium",
   ],
 };
 
@@ -57,34 +48,25 @@ const CATEGORY_COLORS = {
 };
 
 const HABIT_WHY = {
-  "Dry Brushing": "Stimulates lymphatic flow and exfoliates dead skin, improving circulation in lipedema-affected tissue.",
-  "Vibration — Massage Gun": "High-frequency vibration helps break up fibrotic tissue and encourages lymphatic drainage.",
-  "60Hz/128Hz Vibration — Tuning Fork": "Targeted sonic vibration may reduce tissue density and support microcirculation.",
-  "Vibration Plate": "Whole-body vibration activates muscle pumps that assist lymph flow and reduce fluid accumulation.",
-  "Compression Garments": "External compression reduces fluid build-up and prevents tissue expansion in lipedema limbs.",
-  "Compression Boots": "Pneumatic compression actively pumps lymph fluid out of the limbs.",
-  "MLD Therapy": "Manual Lymphatic Drainage is the gold standard for redirecting lymph and softening tissue.",
-  "Weight Lifting": "Muscle contractions act as a pump for the lymphatic system, reducing swelling.",
-  "Swimming": "Hydrostatic pressure from water provides natural full-body compression while low-impact exercise supports lymph flow.",
-  "Ocean Swimming": "Salt water + hydrostatic pressure provides anti-inflammatory and lymphatic benefits.",
-  "Ultrasound Cavitation": "Targeted ultrasound can break down lipedema nodules and fibrotic tissue.",
-  "Shockwave Therapy": "Acoustic waves stimulate collagen remodeling and improve tissue quality in affected areas.",
-  "Keto Diet": "A low-carb ketogenic diet reduces insulin and inflammation, which are key drivers of lipedema progression.",
-  "Low Histamine Diet": "Many lipedema patients have MCAS; reducing histamine load can decrease inflammation and flares.",
-  "Anti-Inflammatory Diet": "Reducing systemic inflammation slows lipedema tissue deterioration.",
-  "Fasting (24hr)": "Extended fasting triggers autophagy, clearing damaged cells and reducing inflammatory load.",
-  "GLP-1 Protocol": "GLP-1 agonists reduce appetite and metabolic inflammation, supporting weight management in lipedema.",
+  "Dry Brushing": "Stimulates initial lymphatics near the skin surface to encourage movement of stagnant interstitial fluid.",
+  "Vibration — Massage Gun": "Uses mechanical oscillation to help thin thickened lymph fluid (thixotropy) for easier transport.",
+  "60Hz/128Hz Vibration — Tuning Fork": "Targeted frequency to assist with localized lymphatic clearance and tissue softening.",
+  "Vibration Plate": "High-frequency whole-body vibration is thought to assist lymphatic pumping and reduce fluid retention.",
+  "Compression (Garments/Boots)": "Provides counter-pressure to reduce capillary leakiness and assist the muscle pump in moving fluid upward.",
+  "MLD Therapy": "Manually reroutes lymphatic fluid around congested areas to functional nodes, reducing tissue pressure.",
+  "Swimming/Ocean": "Utilizes natural hydrostatic pressure to provide gentle, full-body compression supporting lymphatic return.",
+  "Keto/Anti-Inflammatory Diet": "Lowers systemic inflammation and stabilizes insulin to reduce sodium-water retention in fat cells.",
+  "Low Histamine Diet": "Reduces mast cell activation often associated with Lipedema, lowering tissue swelling and itchiness.",
+  "GLP-1 Protocol": "May assist by reducing systemic inflammation and improving disrupted metabolic signaling in Lipedema tissue.",
   "Morning Sun (15+ min)": "Morning light regulates cortisol rhythms and improves circadian alignment, which affects inflammation.",
   "Cold Therapy — Ocean/Pool": "Cold exposure reduces acute inflammation and activates the sympathetic system to tighten tissue.",
   "Cold Therapy — Ice Bath": "Intense cold constricts blood vessels and reduces inflammatory cytokines in affected tissue.",
-  "Vitamin C": "Essential for collagen synthesis and lymphatic vessel integrity.",
-  "Pine Bark Extract": "Pycnogenol has strong evidence for reducing lipedema tissue swelling and pain.",
-  "Quercetin": "A natural bioflavonoid with anti-inflammatory and mast-cell stabilising properties.",
-  "Magnesium": "Supports muscle relaxation, lymph flow, and reduces systemic inflammation.",
-  "Citrus Bioflavonoids": "Strengthen capillary walls and reduce fluid leakage into lipedema tissue.",
-  "Butcher's Broom": "Venotonic herb that reduces capillary permeability and supports lymphatic tone.",
-  "L-Arginine": "Nitric oxide precursor that improves microcirculation in affected tissue.",
-  "Psyllium Husk": "Soluble fibre that feeds beneficial gut bacteria, reducing systemic inflammatory load.",
+  "Vitamin C": "Essential for collagen synthesis to strengthen the basement membrane of blood vessels, reducing capillary leakiness.",
+  "Pine Bark Extract / Bioflavonoids": "Improves microcirculation and strengthens the walls of small veins and lymphatics.",
+  "Quercetin": "Acts as a mast cell stabilizer to reduce the release of histamines that cause tissue swelling and pain.",
+  "Butcher's Broom": "Increases venous tone and helps reduce the permeability of the vascular system.",
+  "L-Arginine": "Supports nitric oxide production to help reduce leakiness of vessels and improve lymphatic pumping.",
+  "Magnesium": "Assists in reducing muscle tension and supporting cellular pumps that regulate fluid balance.",
 };
 
 function HabitChip({ habit, selected, onToggle }) {
@@ -127,7 +109,7 @@ function HabitChip({ habit, selected, onToggle }) {
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <p className="px-3 pb-2.5 text-xs text-muted-foreground leading-relaxed border-t border-gray-100 pt-2">
+            <p className="px-3 pb-2.5 text-xs leading-relaxed border-t border-gray-100 pt-2" style={{ color: '#003300' }}>
               {why}
             </p>
           </motion.div>
