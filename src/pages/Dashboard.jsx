@@ -12,6 +12,7 @@ export default function Dashboard() {
   const [habitLogs, setHabitLogs] = useState([]);
   const [medLogs, setMedLogs] = useState([]);
   const [checkIns, setCheckIns] = useState([]);
+  const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showExport, setShowExport] = useState(false);
 
@@ -20,16 +21,18 @@ export default function Dashboard() {
   }, []);
 
   const loadAllData = async () => {
-    const [body, habits, meds, daily] = await Promise.all([
+    const [body, habits, meds, daily, profiles] = await Promise.all([
       base44.entities.BodyRegionLog.list("-log_date", 200),
-      base44.entities.HabitLog.list("-log_date", 200),
+      base44.entities.HabitLog.list("-log_date", 500),
       base44.entities.MedicationLog.list("-injection_date", 50),
       base44.entities.DailyCheckIn.list("-check_in_date", 100),
+      base44.entities.UserProfile.filter({}),
     ]);
     setBodyLogs(body);
     setHabitLogs(habits);
     setMedLogs(meds);
     setCheckIns(daily);
+    setProfile(profiles[0] || null);
     setLoading(false);
   };
 
@@ -72,6 +75,46 @@ export default function Dashboard() {
       });
     }
   }
+
+  // Experiment Results
+  const experimentResults = [];
+  const activeHabits = profile?.active_habits || [];
+  activeHabits.forEach((habitName) => {
+    const completed = habitLogs.filter(
+      (l) => l.habit_name === habitName && l.status === "completed"
+    );
+    const uniqueDays = [...new Set(completed.map((l) => l.log_date?.split("T")[0]))].sort();
+    if (uniqueDays.length < 14) return; // need at least 14 days of data
+
+    const first7Days = new Set(uniqueDays.slice(0, 7));
+    const last7Days = new Set(uniqueDays.slice(-7));
+
+    const painOnFirst = bodyLogs.filter((l) => first7Days.has(l.log_date?.split("T")[0]));
+    const painOnLast = bodyLogs.filter((l) => last7Days.has(l.log_date?.split("T")[0]));
+
+    if (painOnFirst.length === 0 || painOnLast.length === 0) return;
+
+    const avgFirst = painOnFirst.reduce((s, l) => s + (l.pain_score || 0), 0) / painOnFirst.length;
+    const avgLast = painOnLast.reduce((s, l) => s + (l.pain_score || 0), 0) / painOnLast.length;
+    const diff = avgFirst - avgLast;
+    const pct = Math.round(Math.abs(diff / avgFirst) * 100);
+
+    if (diff > 0.5) {
+      experimentResults.push({
+        title: "Experiment Results",
+        description: `Your ${habitName} experiment is showing a ${pct}% reduction in pain!`,
+        icon: "🧪",
+        type: "win",
+      });
+    } else {
+      experimentResults.push({
+        title: "Experiment Results",
+        description: `No significant change detected with ${habitName}. Consider if this protocol fits your lifestyle or try a new experiment.`,
+        icon: "🧪",
+        type: "neutral",
+      });
+    }
+  });
 
   // Trigger alerts
   const triggerAlerts = [];
@@ -151,6 +194,20 @@ export default function Dashboard() {
           <div className="space-y-3">
             {weeklyWins.map((win, i) => (
               <InsightCard key={i} type="win" {...win} delay={i * 0.1} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Experiment Results */}
+      {experimentResults.length > 0 && (
+        <div className="px-5 mb-5">
+          <h2 className="font-heading text-lg text-pakistani-green mb-3 flex items-center gap-2">
+            🧪 Experiment Results
+          </h2>
+          <div className="space-y-3">
+            {experimentResults.map((result, i) => (
+              <InsightCard key={i} type={result.type} {...result} delay={i * 0.1} />
             ))}
           </div>
         </div>
