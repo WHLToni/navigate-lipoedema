@@ -24,11 +24,12 @@ export default function BodySvgFront({ regionData = {}, onRegionTap, selectedReg
     const data = regionData[regionId];
     if (!data) return "transparent";
     const hasWoody   = data.skin_quality?.includes("Cold") || data.skin_quality?.includes("Woody");
-    const hasPain    = data.pain_score >= 5;
+    const hasSeverePain = data.pain_score >= 7;
     const hasHealthy = data.skin_quality?.includes("Healthy/Warm");
-    if (hasPain)    return "#FB400240";
-    if (hasWoody)   return "#0202FB30";
-    if (hasHealthy) return "#FFE5E680";
+    if (hasSeverePain)  return "#FB400240";
+    if (data.bruising)  return "#FFCCFF80";
+    if (hasWoody)       return "#0202FB30";
+    if (hasHealthy)     return "#FFE5E680";
     return "#0202FB15";
   };
 

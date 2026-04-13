@@ -11,6 +11,7 @@ export default function RegionBottomSheet({ region, existingData, onSave, onClea
   const [skinQuality, setSkinQuality] = useState(existingData?.skin_quality || []);
   const [fatQuality, setFatQuality] = useState(existingData?.fat_quality || []);
   const [painScore, setPainScore] = useState(existingData?.pain_score || 5);
+  const [bruising, setBruising] = useState(existingData?.bruising || false);
 
   const toggleItem = (arr, setArr, item) => {
     if (arr.includes(item)) {
@@ -26,6 +27,7 @@ export default function RegionBottomSheet({ region, existingData, onSave, onClea
       skin_quality: skinQuality,
       fat_quality: fatQuality,
       pain_score: painScore,
+      bruising,
       log_date: new Date().toISOString(),
     });
   };
@@ -111,6 +113,21 @@ export default function RegionBottomSheet({ region, existingData, onSave, onClea
               </button>
             ))}
           </div>
+        </div>
+
+        {/* Localized Symptoms */}
+        <div className="mb-6">
+          <h4 className="text-sm font-semibold mb-2 text-pakistani-green">Localized Symptoms</h4>
+          <button
+            onClick={() => setBruising(!bruising)}
+            className={`px-3 py-2 rounded-full text-xs font-medium border-2 transition-all ${
+              bruising
+                ? "border-electric-blue bg-blue-50 text-electric-blue"
+                : "border-border text-muted-foreground hover:border-muted-foreground"
+            }`}
+          >
+            Bruising
+          </button>
         </div>
 
         {/* Actions */}
