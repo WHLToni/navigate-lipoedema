@@ -12,10 +12,8 @@ const TIME_SLOT_CONFIG = {
   evening: { label: "Evening", emoji: "🌙", bg: "bg-shampoo/50" },
   anytime: { label: "Anytime", emoji: "🕐", bg: "bg-muted/50" },
 };
-
 const SLOT_ORDER = ["morning", "anytime", "evening"];
 
-// Normalize old string-based habits to objects
 const normalizeHabit = (h) =>
   typeof h === "string" ? { name: h, cadence: "daily", time_slot: "anytime" } : h;
 
@@ -28,7 +26,7 @@ export default function Habits() {
   const [showTriggers, setShowTriggers] = useState(false);
 
   const today = new Date().toISOString().split("T")[0];
-  const dayOfWeek = new Date().getDay(); // 0=Sun
+  const dayOfWeek = new Date().getDay();
   const hour = new Date().getHours();
   const isEvening = hour >= 17;
 
@@ -56,14 +54,11 @@ export default function Habits() {
     return Math.min(uniqueDays.size + 1, 30);
   };
 
-  // For weekly habits: show as "due this week" if not completed this week
   const isCompletedThisWeek = (habitName) => {
     const startOfWeek = new Date();
     startOfWeek.setDate(startOfWeek.getDate() - dayOfWeek);
     const weekStart = startOfWeek.toISOString().split("T")[0];
-    return allLogs.some(
-      (l) => l.habit_name === habitName && l.status === "completed" && l.log_date?.split("T")[0] >= weekStart
-    );
+    return allLogs.some((l) => l.habit_name === habitName && l.status === "completed" && l.log_date?.split("T")[0] >= weekStart);
   };
 
   const handleHabitsUpdate = async (newHabits) => {
@@ -77,15 +72,13 @@ export default function Habits() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="w-8 h-8 border-4 border-muted border-t-electric-blue rounded-full animate-spin" />
+        <div className="w-8 h-8 border-4 border-muted rounded-full animate-spin" style={{ borderTopColor: "#FB4002" }} />
       </div>
     );
   }
 
   const activeHabits = (profile?.active_habits || []).map(normalizeHabit);
   const loggedToday = todayLogs.map((l) => l.habit_name);
-
-  // Group habits by time slot
   const grouped = SLOT_ORDER.reduce((acc, slot) => {
     acc[slot] = activeHabits.filter((h) => h.time_slot === slot);
     return acc;
@@ -100,19 +93,23 @@ export default function Habits() {
 
   return (
     <div className={`min-h-screen ${isEvening ? "bg-shampoo/20" : "bg-background"}`}>
-      <div className="px-5 pt-8 pb-4">
-        <div className="flex items-center justify-between">
+      <div className="px-5 pt-10 pb-4">
+        <div className="flex items-start justify-between">
           <div>
-            <h1 className="font-heading text-2xl text-pakistani-green">Daily Habits</h1>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-xs font-medium tracking-widest uppercase text-muted-foreground mb-0.5">
               {isEvening ? "Evening Reflection" : "Today's Protocol"}
             </p>
+            <h1 className="text-4xl" style={{ fontFamily: "var(--font-display)", color: "#0a0a0a", lineHeight: 1.1 }}>
+              Daily Habits
+            </h1>
+            <div className="brand-rule" />
           </div>
           <Button
             variant="outline"
             size="sm"
             onClick={() => setShowLibrary(true)}
-            className="border-pakistani-green text-pakistani-green"
+            className="border-2 mt-2"
+            style={{ borderColor: "#0a0a0a", color: "#0a0a0a" }}
           >
             <Plus className="w-4 h-4 mr-1" /> Edit
           </Button>
@@ -123,17 +120,17 @@ export default function Habits() {
       {activeHabits.length > 0 && (
         <div className="px-5 mb-5">
           <div className="flex gap-3">
-            <div className="flex-1 bg-tea-green/50 rounded-xl p-3 text-center">
-              <p className="text-2xl font-heading text-pakistani-green">{completedCount}</p>
+            <div className="flex-1 bg-tea-green/60 rounded-xl p-3 text-center">
+              <p className="text-2xl text-pakistani-green" style={{ fontFamily: "var(--font-heading)", fontWeight: 800 }}>{completedCount}</p>
               <p className="text-xs text-pakistani-green/70">Done</p>
             </div>
             <div className="flex-1 bg-muted rounded-xl p-3 text-center">
-              <p className="text-2xl font-heading text-muted-foreground">{skippedCount}</p>
+              <p className="text-2xl text-muted-foreground" style={{ fontFamily: "var(--font-heading)", fontWeight: 800 }}>{skippedCount}</p>
               <p className="text-xs text-muted-foreground">Skipped</p>
             </div>
-            <div className="flex-1 bg-shampoo/50 rounded-xl p-3 text-center">
-              <p className="text-2xl font-heading text-pakistani-green">{remainingCount}</p>
-              <p className="text-xs text-pakistani-green/70">Remaining</p>
+            <div className="flex-1 bg-misty-rose rounded-xl p-3 text-center">
+              <p className="text-2xl" style={{ fontFamily: "var(--font-heading)", fontWeight: 800, color: "#FB4002" }}>{remainingCount}</p>
+              <p className="text-xs text-muted-foreground">Remaining</p>
             </div>
           </div>
         </div>
@@ -144,7 +141,11 @@ export default function Habits() {
         <div className="px-5">
           <div className="bg-card rounded-2xl p-8 border border-border text-center">
             <p className="text-muted-foreground text-sm mb-3">No active habits yet. Build your protocol!</p>
-            <Button onClick={() => setShowLibrary(true)} className="bg-electric-blue hover:bg-blue-700 text-white">
+            <Button
+              onClick={() => setShowLibrary(true)}
+              className="text-white"
+              style={{ backgroundColor: "#FB4002" }}
+            >
               <Plus className="w-4 h-4 mr-2" /> Browse Habit Library
             </Button>
           </div>
@@ -160,7 +161,7 @@ export default function Habits() {
           <div key={slot} className="px-5 mb-5">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-base">{cfg.emoji}</span>
-              <h2 className="font-heading text-base text-pakistani-green">{cfg.label}</h2>
+              <h2 className="text-base text-pakistani-green" style={{ fontFamily: "var(--font-heading)", fontWeight: 800 }}>{cfg.label}</h2>
             </div>
             <div className="space-y-3">
               {habits.map((habit, i) => {
@@ -180,17 +181,13 @@ export default function Habits() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.04 }}
                     className={`rounded-xl p-4 border shadow-sm transition-all ${cfg.bg} ${
-                      isCompleted
-                        ? "border-pakistani-green"
-                        : isSkipped
-                        ? "border-border opacity-60"
-                        : "border-border bg-card"
+                      isCompleted ? "border-pakistani-green" : isSkipped ? "border-border opacity-60" : "border-border bg-card"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-2 flex-1 min-w-0">
                         {isCompleted && (
-                          <div className="w-6 h-6 rounded-full bg-pakistani-green flex items-center justify-center flex-shrink-0">
+                          <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: "#FB4002" }}>
                             <Check className="w-3 h-3 text-white" />
                           </div>
                         )}
@@ -213,7 +210,7 @@ export default function Habits() {
                           <button
                             onClick={() => logHabit(habit.name, "completed")}
                             className="px-3 py-1.5 rounded-full text-white text-xs font-semibold hover:opacity-90 transition-opacity"
-                            style={{ backgroundColor: '#0202FB' }}
+                            style={{ backgroundColor: "#FB4002" }}
                           >
                             Done ✓
                           </button>
@@ -231,10 +228,10 @@ export default function Habits() {
                     <div>
                       <div className="flex justify-between text-xs mb-1">
                         <span className="text-muted-foreground">30-day experiment</span>
-                        <span className="font-medium" style={{ color: '#0202FB' }}>Day {day} of 30</span>
+                        <span className="font-medium" style={{ color: "#FB4002" }}>Day {day} of 30</span>
                       </div>
-                      <div className="h-2 rounded-full bg-white/60">
-                        <div className="h-2 rounded-full transition-all" style={{ width: `${pct}%`, backgroundColor: '#0202FB' }} />
+                      <div className="h-1.5 rounded-none bg-white/60">
+                        <div className="h-1.5 rounded-none transition-all" style={{ width: `${pct}%`, backgroundColor: "#FB4002" }} />
                       </div>
                     </div>
                   </motion.div>
@@ -251,20 +248,16 @@ export default function Habits() {
           <Button
             variant="outline"
             onClick={() => setShowTriggers(true)}
-            className="mx-auto h-12 border-2 border-pakistani-green text-pakistani-green rounded-full px-8 flex"
+            className="mx-auto h-12 border-2 rounded-none px-8 flex"
+            style={{ borderColor: "#0a0a0a", color: "#0a0a0a" }}
           >
             Log Today's Triggers <ChevronDown className="w-4 h-4 ml-2" />
           </Button>
         </div>
       )}
 
-      {/* Library */}
       {showLibrary && (
-        <HabitLibrarySheet
-          activeHabits={activeHabits}
-          onSave={handleHabitsUpdate}
-          onClose={() => setShowLibrary(false)}
-        />
+        <HabitLibrarySheet activeHabits={activeHabits} onSave={handleHabitsUpdate} onClose={() => setShowLibrary(false)} />
       )}
 
       <AnimatePresence>
