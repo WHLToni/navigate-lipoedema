@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Dumbbell, Salad, Sun, FlaskConical, Info, ChevronDown, ChevronUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import HabitConfigModal from "./HabitConfigModal";
 
 const HABIT_LIBRARY = {
   "Physical Therapies": [
@@ -69,16 +70,16 @@ const HABIT_WHY = {
   "Magnesium": "Assists in reducing muscle tension and supporting cellular pumps that regulate fluid balance.",
 };
 
-function HabitChip({ habit, selected, onToggle }) {
+const TIME_SLOT_EMOJI = { morning: "☀️", evening: "🌙", anytime: "🕐" };
+
+function HabitChip({ habit, selected, timeSlot, cadence, onToggle }) {
   const [expanded, setExpanded] = useState(false);
   const why = HABIT_WHY[habit];
 
   return (
     <div
       className={`rounded-xl border-2 transition-all text-xs font-medium overflow-hidden ${
-        selected
-          ? "border-[#0202FB] bg-white"
-          : "border-white bg-white"
+        selected ? "border-[#0202FB] bg-white" : "border-white bg-white"
       }`}
     >
       <div className="flex items-center gap-1 px-3 py-2">
@@ -87,6 +88,11 @@ function HabitChip({ habit, selected, onToggle }) {
           className={`flex-1 text-left font-medium ${selected ? "text-[#0202FB]" : "text-foreground"}`}
         >
           {habit}
+          {selected && timeSlot && (
+            <span className="block text-[10px] text-muted-foreground mt-0.5 font-normal">
+              {TIME_SLOT_EMOJI[timeSlot]} {timeSlot} · {cadence}
+            </span>
+          )}
         </button>
         {why && (
           <button
@@ -120,12 +126,30 @@ function HabitChip({ habit, selected, onToggle }) {
 }
 
 export default function HabitLibrarySheet({ activeHabits, onSave, onClose }) {
-  const [selected, setSelected] = useState([...activeHabits]);
+  // activeHabits is now an array of objects: { name, cadence, time_slot }
+  // normalize in case old data is still strings
+  const normalize = (h) => typeof h === "string" ? { name: h, cadence: "daily", time_slot: "anytime" } : h;
+  const [selected, setSelected] = useState(activeHabits.map(normalize));
+  const [configuringHabit, setConfiguringHabit] = useState(null);
 
-  const toggleHabit = (habit) => {
-    setSelected((prev) =>
-      prev.includes(habit) ? prev.filter((h) => h !== habit) : [...prev, habit]
-    );
+  const isSelected = (habit) => selected.some((h) => h.name === habit);
+
+  const handleChipTap = (habit) => {
+    if (isSelected(habit)) {
+      // Deselect immediately
+      setSelected((prev) => prev.filter((h) => h.name !== habit));
+    } else {
+      // Open config modal
+      setConfiguringHabit(habit);
+    }
+  };
+
+  const handleConfigConfirm = (habitObj) => {
+    setSelected((prev) => {
+      const without = prev.filter((h) => h.name !== habitObj.name);
+      return [...without, habitObj];
+    });
+    setConfiguringHabit(null);
   };
 
   return (
@@ -133,15 +157,12 @@ export default function HabitLibrarySheet({ activeHabits, onSave, onClose }) {
       {/* Sticky header */}
       <div className="sticky top-0 bg-background z-20 border-b border-border">
         <div className="flex items-center gap-3 px-5 pt-10 pb-4">
-          <button
-            onClick={onClose}
-            className="p-2 rounded-full hover:bg-muted transition-colors"
-          >
+          <button onClick={onClose} className="p-2 rounded-full hover:bg-muted transition-colors">
             <ArrowLeft className="w-5 h-5" style={{ color: '#003300' }} />
           </button>
           <div>
             <h1 className="font-heading text-2xl" style={{ color: '#003300' }}>Conservative Therapies</h1>
-            <p className="text-xs text-muted-foreground">Select therapies to add to your 30-day protocol. Tap the info icon (i) to learn how each supports lipoedema tissue.</p>
+            <p className="text-xs text-muted-foreground">Tap a therapy to set its schedule and add it to your protocol.</p>
           </div>
         </div>
       </div>
@@ -152,38 +173,50 @@ export default function HabitLibrarySheet({ activeHabits, onSave, onClose }) {
           const Icon = CATEGORY_ICONS[category] || Sun;
           const bgColor = CATEGORY_COLORS[category];
           return (
-            <div
-              key={category}
-              className="mb-5 rounded-2xl p-4"
-              style={{ backgroundColor: bgColor }}
-            >
+            <div key={category} className="mb-5 rounded-2xl p-4" style={{ backgroundColor: bgColor }}>
               <div className="flex items-center gap-2 mb-3">
                 <Icon className="w-4 h-4" style={{ color: '#003300' }} />
                 <h4 className="text-sm font-semibold" style={{ color: '#003300' }}>{category}</h4>
               </div>
               <div className="grid grid-cols-3 gap-2">
-                {habits.map((habit) => (
-                  <HabitChip
-                    key={habit}
-                    habit={habit}
-                    selected={selected.includes(habit)}
-                    onToggle={toggleHabit}
-                  />
-                ))}
+                {habits.map((habit) => {
+                  const sel = selected.find((h) => h.name === habit);
+                  return (
+                    <HabitChip
+                      key={habit}
+                      habit={habit}
+                      selected={!!sel}
+                      timeSlot={sel?.time_slot}
+                      cadence={sel?.cadence}
+                      onToggle={handleChipTap}
+                    />
+                  );
+                })}
               </div>
             </div>
           );
         })}
 
-        {/* CTA Button — end of list */}
         <Button
           onClick={() => onSave(selected)}
           className="w-fit px-10 mx-auto block mt-10 mb-20 h-14 rounded-full font-heading text-base text-white"
           style={{ backgroundColor: '#0202FB' }}
         >
-          Start 30-Day Protocol ({selected.length} therapies)
+          Save Protocol ({selected.length} therapies)
         </Button>
       </div>
+
+      {/* Config Modal */}
+      <AnimatePresence>
+        {configuringHabit && (
+          <HabitConfigModal
+            habitName={configuringHabit}
+            existing={selected.find((h) => h.name === configuringHabit)}
+            onConfirm={handleConfigConfirm}
+            onCancel={() => setConfiguringHabit(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

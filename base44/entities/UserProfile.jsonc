@@ -90,7 +90,27 @@
       "type": "array",
       "title": "Active Habits",
       "items": {
-        "type": "string"
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "cadence": {
+            "type": "string",
+            "enum": [
+              "daily",
+              "weekly"
+            ]
+          },
+          "time_slot": {
+            "type": "string",
+            "enum": [
+              "morning",
+              "evening",
+              "anytime"
+            ]
+          }
+        }
       }
     }
   },
