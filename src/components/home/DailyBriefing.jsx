@@ -140,11 +140,11 @@ export default function DailyBriefing({ habitLogs, bodyLogs, checkIns, activeHab
         <div className="col-span-1 flex flex-col gap-2">
           {/* Morning check-in done tile */}
           <div className="bg-tea-green rounded-lg p-2 border-2 border-pakistani-green flex flex-col justify-center flex-1">
-            <p className="text-[10px] font-semibold text-pakistani-green leading-tight">Morning ✓</p>
+            <p className="text-[10px] font-semibold text-pakistani-green leading-tight">Morning Check-In ✓</p>
             <p className="text-[10px] text-pakistani-green/70 mt-0.5">{sunlightLogged ? "☀️ Sunlight" : "🌙 No sun"}</p>
           </div>
-          <NavTile icon={<Moon className="w-3.5 h-3.5" />} label="Evening" bg="bg-shampoo" href="/habits" />
-          <NavTile icon={<MapPin className="w-3.5 h-3.5" />} label="Pain Map" bg="bg-misty-rose" href="/body-map" />
+          <NavTile icon={<Moon className="w-3.5 h-3.5" />} label="Evening Reflection" bg="bg-shampoo" href="/habits" />
+          <NavTile icon={<MapPin className="w-3.5 h-3.5" />} label="Record Pain" bg="bg-misty-rose" href="/body-map" />
         </div>
       </motion.div>
     </div>
