@@ -24,13 +24,14 @@
           "Woody",
           "Loose/Concertina",
           "Velvety",
-          "Healthy/Warm"
+          "Healthy/Warm",
+          "Rough/Bumpy"
         ]
       }
     },
     "fat_quality": {
       "type": "array",
-      "title": "Fat Quality",
+      "title": "Tissue Quality",
       "items": {
         "type": "string",
         "enum": [
@@ -38,7 +39,8 @@
           "Heavy",
           "Painful",
           "Hard",
-          "Congested/Thick"
+          "Congested/Thick",
+          "Nodules"
         ]
       }
     },

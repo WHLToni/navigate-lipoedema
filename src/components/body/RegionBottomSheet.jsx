@@ -4,8 +4,8 @@ import { Slider } from "@/components/ui/slider";
 import { X } from "lucide-react";
 import { motion } from "framer-motion";
 
-const SKIN_OPTIONS = ["Cold", "Woody", "Loose/Concertina", "Velvety", "Healthy/Warm"];
-const FAT_OPTIONS = ["Spongy/Fluffy", "Heavy", "Painful", "Hard", "Congested/Thick"];
+const SKIN_OPTIONS = ["Cold", "Woody", "Loose/Concertina", "Velvety", "Healthy/Warm", "Rough/Bumpy"];
+const FAT_OPTIONS = ["Spongy/Fluffy", "Heavy", "Painful", "Hard", "Congested/Thick", "Nodules"];
 
 export default function RegionBottomSheet({ region, existingData, onSave, onClear, onClose }) {
   const [skinQuality, setSkinQuality] = useState(existingData?.skin_quality || []);
@@ -95,9 +95,9 @@ export default function RegionBottomSheet({ region, existingData, onSave, onClea
           </div>
         </div>
 
-        {/* Fat Quality */}
+        {/* Tissue Quality */}
         <div className="mb-6">
-          <h4 className="text-sm font-semibold mb-2 text-pakistani-green">Fat Quality</h4>
+          <h4 className="text-sm font-semibold mb-2 text-pakistani-green">Tissue Quality</h4>
           <div className="flex flex-wrap gap-2">
             {FAT_OPTIONS.map((opt) => (
               <button
