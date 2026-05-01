@@ -152,7 +152,7 @@ export default function Home() {
                 Quick Tissue Scan
               </h3>
               <p className="text-xs text-muted-foreground mb-4">
-                Slide each region: Cold ← → Warm
+              Slide each region: Cold ← Neutral → Warm
               </p>
 
               <div className="flex items-start gap-4">
