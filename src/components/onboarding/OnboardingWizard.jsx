@@ -80,7 +80,7 @@ export default function OnboardingWizard({ onComplete }) {
             <div className="w-16 h-16 rounded-full bg-tea-green flex items-center justify-center mx-auto">
               <Sun className="w-8 h-8 text-pakistani-green" />
             </div>
-            <h2 className="font-heading text-2xl text-center text-pakistani-green">
+            <h2 className="text-3xl text-center" style={{ fontFamily: "var(--font-display)", color: "#0a0a0a" }}>
               Welcome to Navigate Lipoedema
             </h2>
             <p className="text-center text-muted-foreground text-sm">
@@ -108,7 +108,7 @@ export default function OnboardingWizard({ onComplete }) {
       case 1:
         return (
           <div className="space-y-6">
-            <h2 className="font-heading text-2xl text-center text-pakistani-green">
+            <h2 className="text-2xl text-center" style={{ fontFamily: "var(--font-heading)", fontWeight: 800, color: "#0a0a0a" }}>
               Your Lipoedema Profile
             </h2>
             <p className="text-center text-muted-foreground text-sm">
@@ -123,7 +123,7 @@ export default function OnboardingWizard({ onComplete }) {
                     onClick={() => updateField("stage", s)}
                     className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${
                       data.stage === s
-                        ? "border-electric-blue bg-blue-50 text-electric-blue"
+                        ? "border-dynamic-red bg-misty-rose text-dynamic-red"
                         : "border-border hover:border-muted-foreground"
                     }`}
                   >
@@ -139,7 +139,7 @@ export default function OnboardingWizard({ onComplete }) {
                     onClick={() => toggleArrayItem("type", t.id)}
                     className={`p-3 rounded-lg border-2 text-left transition-all ${
                       data.type.includes(t.id)
-                        ? "border-electric-blue bg-blue-50 text-electric-blue"
+                        ? "border-dynamic-red bg-misty-rose text-dynamic-red"
                         : "border-border hover:border-muted-foreground"
                     }`}
                   >
@@ -154,7 +154,7 @@ export default function OnboardingWizard({ onComplete }) {
       case 2:
         return (
           <div className="space-y-6">
-            <h2 className="font-heading text-2xl text-center text-pakistani-green">
+            <h2 className="text-2xl text-center" style={{ fontFamily: "var(--font-heading)", fontWeight: 800, color: "#0a0a0a" }}>
               Comorbidities
             </h2>
             <p className="text-center text-muted-foreground text-sm">
@@ -167,7 +167,7 @@ export default function OnboardingWizard({ onComplete }) {
                   onClick={() => toggleArrayItem("comorbidities", c)}
                   className={`w-full p-4 rounded-lg border-2 text-left text-sm font-medium transition-all ${
                     data.comorbidities.includes(c)
-                      ? "border-electric-blue bg-blue-50 text-electric-blue"
+                      ? "border-dynamic-red bg-misty-rose text-dynamic-red"
                       : "border-border hover:border-muted-foreground"
                   }`}
                 >
@@ -180,7 +180,7 @@ export default function OnboardingWizard({ onComplete }) {
       case 3:
         return (
           <div className="space-y-6">
-            <h2 className="font-heading text-2xl text-center text-pakistani-green">
+            <h2 className="text-2xl text-center" style={{ fontFamily: "var(--font-heading)", fontWeight: 800, color: "#0a0a0a" }}>
               Life Stage
             </h2>
             <p className="text-center text-muted-foreground text-sm">
@@ -193,7 +193,7 @@ export default function OnboardingWizard({ onComplete }) {
                   onClick={() => updateField("life_stage", ls)}
                   className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${
                     data.life_stage === ls
-                      ? "border-electric-blue bg-blue-50 text-electric-blue"
+                      ? "border-dynamic-red bg-misty-rose text-dynamic-red"
                       : "border-border hover:border-muted-foreground"
                   }`}
                 >
@@ -209,7 +209,7 @@ export default function OnboardingWizard({ onComplete }) {
             <div className="w-16 h-16 rounded-full bg-shampoo flex items-center justify-center mx-auto">
               <Heart className="w-8 h-8 text-pakistani-green" />
             </div>
-            <h2 className="font-heading text-2xl text-center text-pakistani-green">
+            <h2 className="text-2xl text-center" style={{ fontFamily: "var(--font-heading)", fontWeight: 800, color: "#0a0a0a" }}>
               Your Goals
             </h2>
             <p className="text-center text-muted-foreground text-sm">
@@ -222,7 +222,7 @@ export default function OnboardingWizard({ onComplete }) {
                   onClick={() => toggleArrayItem("goals", g)}
                   className={`w-full p-4 rounded-lg border-2 text-left text-sm font-medium transition-all ${
                     data.goals.includes(g)
-                      ? "border-electric-blue bg-blue-50 text-electric-blue"
+                      ? "border-dynamic-red bg-misty-rose text-dynamic-red"
                       : "border-border hover:border-muted-foreground"
                   }`}
                 >
@@ -238,7 +238,7 @@ export default function OnboardingWizard({ onComplete }) {
             <div className="w-16 h-16 rounded-full bg-misty-rose flex items-center justify-center mx-auto">
               <Shield className="w-8 h-8 text-pakistani-green" />
             </div>
-            <h2 className="font-heading text-2xl text-center text-pakistani-green">
+            <h2 className="text-2xl text-center" style={{ fontFamily: "var(--font-heading)", fontWeight: 800, color: "#0a0a0a" }}>
               Consent & Privacy
             </h2>
             <div className="space-y-4">
@@ -298,7 +298,7 @@ export default function OnboardingWizard({ onComplete }) {
             <div
               key={i}
               className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${
-                i <= step ? "bg-electric-blue" : "bg-muted"
+                i <= step ? "bg-dynamic-red" : "bg-muted"
               }`}
             />
           ))}
@@ -338,7 +338,7 @@ export default function OnboardingWizard({ onComplete }) {
           <Button
             onClick={() => setStep((s) => s + 1)}
             disabled={!canNext()}
-            className={`${step > 0 ? "flex-1" : "min-w-[160px] mx-auto"} h-12 bg-electric-blue hover:bg-blue-700 text-white`}
+            className={`${step > 0 ? "flex-1" : "min-w-[160px] mx-auto"} h-12 text-white rounded-none`} style={{ backgroundColor: "#FB4002" }}
           >
             Next <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
@@ -346,7 +346,7 @@ export default function OnboardingWizard({ onComplete }) {
           <Button
             onClick={handleFinish}
             disabled={!data.privacy_consent}
-            className="flex-1 h-12 bg-electric-blue hover:bg-blue-700 text-white"
+            className="flex-1 h-12 text-white rounded-none" style={{ backgroundColor: "#FB4002" }}
           >
             Get Started <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
