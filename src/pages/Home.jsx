@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import { Sun, Moon, ChevronRight } from "lucide-react";
+import { Sun, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import OnboardingWizard from "../components/onboarding/OnboardingWizard";
 import BodySvgFront from "../components/body/BodySvgFront";
 import { FRONT_REGIONS } from "../components/body/BodySvgFront";
 import { motion } from "framer-motion";
+import DailyBriefing from "../components/home/DailyBriefing";
 
 const QUICK_SCAN_REGIONS = ["left-upper-thigh", "right-upper-thigh", "left-inner-thigh", "right-inner-thigh", "abdomen"];
 
@@ -17,6 +18,11 @@ export default function Home() {
   const [sunlight, setSunlight] = useState(null);
   const [quickScans, setQuickScans] = useState({});
   const [todayCheckIn, setTodayCheckIn] = useState(null);
+
+  // Briefing data
+  const [habitLogs, setHabitLogs] = useState([]);
+  const [bodyLogs, setBodyLogs] = useState([]);
+  const [checkIns, setCheckIns] = useState([]);
 
   const hour = new Date().getHours();
   const isMorning = hour < 14;
@@ -29,9 +35,17 @@ export default function Home() {
     if (profiles.length > 0) {
       setProfile(profiles[0]);
       const today = new Date().toISOString().split("T")[0];
-      const checkIns = await base44.entities.DailyCheckIn.filter({ check_in_date: today });
-      const morningCI = checkIns.find((c) => c.check_in_type === "morning");
+      const [todayCheckIns, recentHabitLogs, recentBodyLogs, recentCheckIns] = await Promise.all([
+        base44.entities.DailyCheckIn.filter({ check_in_date: today }),
+        base44.entities.HabitLog.list("-log_date", 200),
+        base44.entities.BodyRegionLog.list("-log_date", 200),
+        base44.entities.DailyCheckIn.list("-check_in_date", 50),
+      ]);
+      const morningCI = todayCheckIns.find((c) => c.check_in_type === "morning");
       if (morningCI) { setTodayCheckIn(morningCI); setMorningDone(true); }
+      setHabitLogs(recentHabitLogs);
+      setBodyLogs(recentBodyLogs);
+      setCheckIns(recentCheckIns);
     }
     setLoading(false);
   };
@@ -62,13 +76,14 @@ export default function Home() {
   if (!profile) return <OnboardingWizard onComplete={loadData} />;
 
   const bgClass = isMorning ? "bg-tea-green" : isEvening ? "bg-shampoo" : "bg-background";
+  const activeHabits = profile.active_habits || [];
 
   return (
     <div className={`min-h-screen ${bgClass}`}>
-      <div className="px-5 pt-10 pb-4">
+      <div className="px-5 pt-10 pb-6">
 
-        {/* Header — Lobster Two display name, editorial rule */}
-        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-7">
+        {/* Header */}
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-5">
           <p className="text-xs font-medium tracking-widest uppercase text-muted-foreground" style={{ fontFamily: "var(--font-body)" }}>
             {isMorning ? "Good Morning" : isEvening ? "Good Evening" : "Good Afternoon"}
           </p>
@@ -167,7 +182,7 @@ export default function Home() {
         ) : (
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-3">
 
-            {/* Completed Card */}
+            {/* Completed banner */}
             <div className="bg-tea-green rounded-xl p-3 border-2 border-pakistani-green flex items-center gap-3">
               <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center flex-shrink-0">
                 <Sun className="w-4 h-4 text-pakistani-green" />
@@ -182,44 +197,19 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Quick Actions */}
-            <div className="grid grid-cols-2 gap-2">
-              <QuickActionCard icon={<Moon className="w-4 h-4" />} label="Evening Reflection" bgColor="bg-shampoo" href="/habits" />
-              <QuickActionCard icon="🗺️" label="Pain Map" bgColor="bg-misty-rose" href="/body-map" />
-            </div>
+            {/* Daily Briefing */}
+            <DailyBriefing
+              habitLogs={habitLogs}
+              bodyLogs={bodyLogs}
+              checkIns={checkIns}
+              activeHabits={activeHabits}
+              todayCheckIn={todayCheckIn}
+              profile={profile}
+            />
 
-            {/* Profile Summary */}
-            <div className="bg-card rounded-xl p-4 border border-border">
-              <h3 className="text-sm text-pakistani-green mb-1" style={{ fontFamily: "var(--font-heading)", fontWeight: 800 }}>Your Profile</h3>
-              <div className="brand-rule" />
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                <ProfileItem label="Stage" value={profile.stage || "Not set"} />
-                <ProfileItem label="Type" value={profile.type?.join(", ") || "Not set"} />
-                <ProfileItem label="Life Stage" value={profile.life_stage || "Not set"} />
-                <ProfileItem label="Active Habits" value={`${profile.active_habits?.length || 0} habits`} />
-              </div>
-            </div>
           </motion.div>
         )}
       </div>
-    </div>
-  );
-}
-
-function QuickActionCard({ icon, label, bgColor, href }) {
-  return (
-    <a href={href} className={`${bgColor} rounded-xl p-3 flex items-center gap-2 transition-transform hover:scale-105`}>
-      <span className="text-lg">{typeof icon === "string" ? icon : icon}</span>
-      <span className="text-xs font-medium text-pakistani-green" style={{ fontFamily: "var(--font-body)" }}>{label}</span>
-    </a>
-  );
-}
-
-function ProfileItem({ label, value }) {
-  return (
-    <div>
-      <p className="text-xs text-muted-foreground">{label}</p>
-      <p className="font-medium text-sm">{value}</p>
     </div>
   );
 }
