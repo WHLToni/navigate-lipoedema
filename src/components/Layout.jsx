@@ -18,8 +18,8 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-card border-t border-border z-50 pb-safe">
+      {/* Bottom Navigation — dark brand treatment */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 pb-safe" style={{ background: "#0a0a0a", borderTop: "1px solid #1a1a1a" }}>
         <div className="max-w-lg mx-auto flex items-center justify-around px-2 pt-2 pb-1">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
@@ -28,14 +28,11 @@ export default function Layout() {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all duration-200 ${
-                  isActive
-                    ? "text-electric-blue"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
+                className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all duration-200"
+                style={{ color: isActive ? "#FB4002" : "rgba(255,255,255,0.4)" }}
               >
                 <Icon className={`w-5 h-5 ${isActive ? "stroke-[2.5]" : ""}`} />
-                <span className="text-[10px] font-body font-medium leading-tight">
+                <span className="text-[10px] font-medium leading-tight" style={{ fontFamily: "var(--font-body)" }}>
                   {item.label}
                 </span>
               </Link>
