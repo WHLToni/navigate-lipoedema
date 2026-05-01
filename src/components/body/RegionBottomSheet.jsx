@@ -5,7 +5,7 @@ import { X } from "lucide-react";
 import { motion } from "framer-motion";
 
 const SKIN_OPTIONS = ["Cold", "Woody", "Loose/Concertina", "Velvety", "Healthy/Warm", "Rough/Bumpy"];
-const FAT_OPTIONS = ["Spongy/Fluffy", "Heavy", "Painful", "Hard", "Congested/Thick", "Nodules"];
+const FAT_OPTIONS = ["Spongy/Fluffy", "Heavy", "Painful", "Hard", "Congested/Thick", "Nodules", "Fibrosis"];
 
 export default function RegionBottomSheet({ region, existingData, onSave, onClear, onClose }) {
   const [skinQuality, setSkinQuality] = useState(existingData?.skin_quality || []);
