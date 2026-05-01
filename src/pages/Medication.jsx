@@ -248,7 +248,7 @@ export default function Medication() {
 
       {/* History */}
       <div className="px-5">
-        <MedicationHistory logs={logs} />
+        <MedicationHistory logs={logs} onReload={loadLogs} />
       </div>
     </div>
   );
