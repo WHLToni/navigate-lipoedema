@@ -94,14 +94,14 @@ export default function Medication() {
       )}
 
       {/* Active Protocol Card */}
-      <div className="px-5 mb-4">
-        <div className="bg-shampoo rounded-2xl p-5 border-2 border-pakistani-green">
-          <h3 className="text-lg text-pakistani-green mb-3" style={{ fontFamily: "var(--font-heading)", fontWeight: 800 }}>Active Protocol</h3>
+      <div className="px-5 mb-3">
+        <div className="bg-shampoo rounded-xl p-3 border-2 border-pakistani-green">
+          <h3 className="text-sm text-pakistani-green mb-2" style={{ fontFamily: "var(--font-heading)", fontWeight: 800 }}>Active Protocol</h3>
           {lastDose ? (
-            <div className="grid grid-cols-2 gap-3">
-              <ProtocolItem icon={<Syringe className="w-4 h-4" />} label="Last Dose" value={`${lastDose.clicks} clicks (${lastDose.mg_dose}mg)`} />
-              <ProtocolItem icon={<Calendar className="w-4 h-4" />} label="Days Since" value={`${daysSinceLastDose} days`} />
-              <ProtocolItem icon={<Clock className="w-4 h-4" />} label="Next Dose" value={nextDoseDate?.toLocaleDateString("en-AU", { month: "short", day: "numeric" })} />
+            <div className="grid grid-cols-2 gap-2">
+              <ProtocolItem icon={<Syringe className="w-3.5 h-3.5" />} label="Last Dose" value={`${lastDose.clicks} clicks (${lastDose.mg_dose}mg)`} />
+              <ProtocolItem icon={<Calendar className="w-3.5 h-3.5" />} label="Days Since" value={`${daysSinceLastDose} days`} />
+              <ProtocolItem icon={<Clock className="w-3.5 h-3.5" />} label="Next Dose" value={nextDoseDate?.toLocaleDateString("en-AU", { month: "short", day: "numeric" })} />
               <ProtocolItem icon="💉" label="Site" value={lastDose.injection_site} />
             </div>
           ) : (
@@ -189,11 +189,11 @@ export default function Medication() {
 
 function ProtocolItem({ icon, label, value }) {
   return (
-    <div className="flex items-center gap-2">
-      <span className="text-pakistani-green">{typeof icon === "string" ? icon : icon}</span>
-      <div>
-        <p className="text-xs text-pakistani-green/60">{label}</p>
-        <p className="text-sm font-semibold text-pakistani-green">{value}</p>
+    <div className="flex items-center gap-1.5">
+      <span className="text-pakistani-green flex-shrink-0">{typeof icon === "string" ? icon : icon}</span>
+      <div className="min-w-0">
+        <p className="text-[10px] text-pakistani-green/60">{label}</p>
+        <p className="text-xs font-semibold text-pakistani-green truncate">{value}</p>
       </div>
     </div>
   );
