@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { TrendingUp, TrendingDown, Minus, Moon, MapPin, Sun } from "lucide-react";
+import { TrendingUp, TrendingDown, Minus, Moon, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 
 function StatCard({ label, value, sub, color = "#0a0a0a", delay = 0 }) {
@@ -17,7 +17,7 @@ function StatCard({ label, value, sub, color = "#0a0a0a", delay = 0 }) {
   );
 }
 
-export default function DailyBriefing({ habitLogs, bodyLogs, checkIns, activeHabits, todayCheckIn, profile }) {
+export default function DailyBriefing({ habitLogs, bodyLogs, checkIns, activeHabits, todayCheckIn, profile, sunlightLogged }) {
   const today = new Date().toISOString().split("T")[0];
 
   // --- 7-day habit streak ---
@@ -138,7 +138,11 @@ export default function DailyBriefing({ habitLogs, bodyLogs, checkIns, activeHab
 
         {/* Nav stack — 1 col */}
         <div className="col-span-1 flex flex-col gap-2">
-          <NavTile icon={<Sun className="w-3.5 h-3.5" />} label="Check-In" bg="bg-tea-green" href="/habits" />
+          {/* Morning check-in done tile */}
+          <div className="bg-tea-green rounded-lg p-2 border-2 border-pakistani-green flex flex-col justify-center flex-1">
+            <p className="text-[10px] font-semibold text-pakistani-green leading-tight">Morning ✓</p>
+            <p className="text-[10px] text-pakistani-green/70 mt-0.5">{sunlightLogged ? "☀️ Sunlight" : "🌙 No sun"}</p>
+          </div>
           <NavTile icon={<Moon className="w-3.5 h-3.5" />} label="Evening" bg="bg-shampoo" href="/habits" />
           <NavTile icon={<MapPin className="w-3.5 h-3.5" />} label="Pain Map" bg="bg-misty-rose" href="/body-map" />
         </div>

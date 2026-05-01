@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import { Sun, ChevronRight } from "lucide-react";
+import { Sun, ChevronRight } from "lucide-react"; // Sun still used in check-in form
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import OnboardingWizard from "../components/onboarding/OnboardingWizard";
@@ -182,22 +182,7 @@ export default function Home() {
         ) : (
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-3">
 
-            {/* Completed banner */}
-            <div className="bg-tea-green rounded-xl p-3 border-2 border-pakistani-green flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center flex-shrink-0">
-                <Sun className="w-4 h-4 text-pakistani-green" />
-              </div>
-              <div>
-                <h3 className="text-sm text-pakistani-green" style={{ fontFamily: "var(--font-heading)", fontWeight: 800 }}>
-                  Morning Check-In Done ✓
-                </h3>
-                <p className="text-xs text-pakistani-green/70">
-                  {todayCheckIn?.morning_sunlight ? "☀️ Sunlight logged" : "🌙 No sunlight today"}
-                </p>
-              </div>
-            </div>
-
-            {/* Daily Briefing */}
+              {/* Daily Briefing */}
             <DailyBriefing
               habitLogs={habitLogs}
               bodyLogs={bodyLogs}
@@ -205,6 +190,7 @@ export default function Home() {
               activeHabits={activeHabits}
               todayCheckIn={todayCheckIn}
               profile={profile}
+              sunlightLogged={todayCheckIn?.morning_sunlight}
             />
 
           </motion.div>
