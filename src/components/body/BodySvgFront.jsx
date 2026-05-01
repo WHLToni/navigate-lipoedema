@@ -61,7 +61,7 @@ export default function BodySvgFront({ regionData = {}, onRegionTap, selectedReg
       {/* Chest */}
       <rect style={regionStyle("chest")} x="36" y="12" width="31" height="25" rx="2" onClick={() => handleTap("chest")} />
       {/* Abdomen */}
-      <rect style={regionStyle("abdomen")} x="34" y="37" width="35" height="41" rx="2" onClick={() => handleTap("abdomen")} />
+      <rect style={regionStyle("abdomen")} x="34" y="49" width="35" height="41" rx="2" onClick={() => handleTap("abdomen")} />
       {/* Left Hip */}
       <rect style={regionStyle("left-hip")} x="14" y="78" width="26" height="34" rx="2" onClick={() => handleTap("left-hip")} />
       {/* Right Hip */}
