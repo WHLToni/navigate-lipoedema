@@ -1,11 +1,11 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
-import { Home, Map, ListChecks, Pill, Settings } from "lucide-react";
+import { Home, Map, ListChecks, Pill, TrendingUp, Settings } from "lucide-react";
 
 const navItems = [
   { path: "/", label: "Home", icon: Home },
   { path: "/body-map", label: "Symptom Map", icon: Map },
   { path: "/habits", label: "Habits", icon: ListChecks },
-  { path: "/medication", label: "Medication", icon: Pill },
+  { path: "/trends", label: "Trends", icon: TrendingUp },
   { path: "/settings", label: "Settings", icon: Settings },
 ];
 
