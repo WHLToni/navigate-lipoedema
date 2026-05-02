@@ -271,8 +271,8 @@ export default function Settings() {
           {saved ? "Saved!" : saving ? "Saving…" : "Save Changes"}
         </Button>
 
-        {/* Reset onboarding */}
-        <div className="pt-4 border-t border-border">
+        {/* Reset onboarding — admin only */}
+        {currentUser?.role === "admin" && <div className="pt-4 border-t border-border">
           {!showResetConfirm ? (
             <button
               onClick={() => setShowResetConfirm(true)}
@@ -301,7 +301,7 @@ export default function Settings() {
               </div>
             </div>
           )}
-        </div>
+        </div>}
 
         {/* Delete account */}
         <div className="pt-2 pb-8 text-center">
