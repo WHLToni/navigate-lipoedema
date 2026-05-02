@@ -1,0 +1,66 @@
+{
+  "name": "MeasurementLog",
+  "type": "object",
+  "properties": {
+    "log_date": {
+      "type": "string",
+      "title": "Log Date",
+      "format": "date"
+    },
+    "upper_thigh_left": {
+      "type": "number",
+      "title": "Upper Thigh Left (cm)"
+    },
+    "upper_thigh_right": {
+      "type": "number",
+      "title": "Upper Thigh Right (cm)"
+    },
+    "above_knee_left": {
+      "type": "number",
+      "title": "Above Knee Left 4cm (cm)"
+    },
+    "above_knee_right": {
+      "type": "number",
+      "title": "Above Knee Right 4cm (cm)"
+    },
+    "below_knee_left": {
+      "type": "number",
+      "title": "Below Knee Left 4cm (cm)"
+    },
+    "below_knee_right": {
+      "type": "number",
+      "title": "Below Knee Right 4cm (cm)"
+    },
+    "ankle_left": {
+      "type": "number",
+      "title": "Ankle Left (cm)"
+    },
+    "ankle_right": {
+      "type": "number",
+      "title": "Ankle Right (cm)"
+    },
+    "upper_arm_left": {
+      "type": "number",
+      "title": "Upper Arm Left (cm)"
+    },
+    "upper_arm_right": {
+      "type": "number",
+      "title": "Upper Arm Right (cm)"
+    },
+    "hips": {
+      "type": "number",
+      "title": "Hips (cm)"
+    },
+    "stomach": {
+      "type": "number",
+      "title": "Stomach 2cm below navel (cm)"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Notes"
+    }
+  },
+  "required": [
+    "log_date"
+  ]
+}

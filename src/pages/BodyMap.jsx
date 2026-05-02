@@ -5,6 +5,7 @@ import { Slider } from "@/components/ui/slider";
 import BodySvgFront from "../components/body/BodySvgFront";
 import BodySvgBack from "../components/body/BodySvgBack";
 import RegionBottomSheet from "../components/body/RegionBottomSheet";
+import MeasurementsTab from "../components/body/MeasurementsTab";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function BodyMap() {
@@ -110,8 +111,18 @@ export default function BodyMap() {
           >
             Systemic View
           </button>
+          <button
+            onClick={() => setMainTab("measurements")}
+            className="flex-1 py-2.5 rounded-lg text-sm font-medium transition-all"
+            style={mainTab === "measurements" ? activeTabStyle : inactiveTabStyle}
+          >
+            Measurements
+          </button>
         </div>
       </div>
+
+      {/* Measurements Tab */}
+      {mainTab === "measurements" && <MeasurementsTab />}
 
       {/* Systemic View */}
       {mainTab === "systemic" && (
