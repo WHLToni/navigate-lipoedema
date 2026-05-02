@@ -62,7 +62,7 @@ export default function Medication() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-28">
       <div className="px-5 pt-10 pb-4">
         <p className="text-xs font-medium tracking-widest uppercase text-muted-foreground mb-0.5">Injection Tracker</p>
         <h1 className="text-4xl" style={{ fontFamily: "var(--font-display)", color: "#0a0a0a", lineHeight: 1.1 }}>
@@ -93,21 +93,21 @@ export default function Medication() {
         </motion.div>
       )}
 
-      {/* Active Protocol Card */}
-      <div className="px-5 mb-3">
-        <div className="bg-shampoo rounded-xl p-3 border-2 border-pakistani-green">
-          <h3 className="text-sm text-pakistani-green mb-2" style={{ fontFamily: "var(--font-heading)", fontWeight: 800 }}>Active Protocol</h3>
-          {lastDose ? (
-            <div className="grid grid-cols-2 gap-2">
-              <ProtocolItem icon={<Syringe className="w-3.5 h-3.5" />} label="Last Dose" value={`${lastDose.clicks} clicks (${lastDose.mg_dose}mg)`} />
-              <ProtocolItem icon={<Calendar className="w-3.5 h-3.5" />} label="Days Since" value={`${daysSinceLastDose} days`} />
-              <ProtocolItem icon={<Clock className="w-3.5 h-3.5" />} label="Next Dose" value={nextDoseDate?.toLocaleDateString("en-AU", { month: "short", day: "numeric" })} />
-              <ProtocolItem icon="💉" label="Site" value={lastDose.injection_site} />
-            </div>
-          ) : (
-            <p className="text-sm text-pakistani-green/70">No injections logged yet.</p>
-          )}
-        </div>
+      {/* Active Protocol — no border, background-defined, compact grid */}
+      <div className="px-5 mb-4">
+        <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">Active Protocol</p>
+        {lastDose ? (
+          <div className="grid grid-cols-2 gap-2">
+            <ProtocolTile icon={<Syringe className="w-4 h-4" />} label="Last Dose" value={`${lastDose.clicks} clicks`} sub={`${lastDose.mg_dose}mg`} bg="bg-shampoo" />
+            <ProtocolTile icon={<Calendar className="w-4 h-4" />} label="Days Since" value={`${daysSinceLastDose}`} sub="days ago" bg="bg-misty-rose" />
+            <ProtocolTile icon={<Clock className="w-4 h-4" />} label="Next Dose" value={nextDoseDate?.toLocaleDateString("en-AU", { month: "short", day: "numeric" })} sub="due date" bg="bg-tea-green" />
+            <ProtocolTile icon="💉" label="Last Site" value={lastDose.injection_site} sub="injection site" bg="bg-muted" />
+          </div>
+        ) : (
+          <div className="bg-muted rounded-xl p-4 text-center">
+            <p className="text-sm text-muted-foreground">No injections logged yet.</p>
+          </div>
+        )}
       </div>
 
       {/* Log New Injection Button */}
@@ -130,18 +130,20 @@ export default function Medication() {
             initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
             className="px-5 mb-4 overflow-hidden"
           >
-            <div className="bg-card rounded-2xl p-5 border border-border shadow-sm space-y-4">
+            <div className="bg-card rounded-xl p-5 border border-border shadow-sm space-y-4">
               <h3 className="text-base text-pakistani-green" style={{ fontFamily: "var(--font-heading)", fontWeight: 800 }}>Log New Injection</h3>
 
               <div>
                 <label className="text-xs font-medium text-muted-foreground">Date & Time</label>
-                <Input type="datetime-local" value={formData.injection_date} onChange={(e) => setFormData((p) => ({ ...p, injection_date: e.target.value }))} className="mt-1" />
+                <Input type="datetime-local" value={formData.injection_date}
+                  onChange={(e) => setFormData((p) => ({ ...p, injection_date: e.target.value }))} className="mt-1" />
               </div>
 
               <div>
                 <label className="text-xs font-medium text-muted-foreground">Clicks</label>
                 <div className="flex items-center gap-3 mt-1">
-                  <Input type="number" placeholder="Enter clicks" value={formData.clicks} onChange={(e) => setFormData((p) => ({ ...p, clicks: e.target.value }))} className="flex-1" />
+                  <Input type="number" placeholder="Enter clicks" value={formData.clicks}
+                    onChange={(e) => setFormData((p) => ({ ...p, clicks: e.target.value }))} className="flex-1" />
                   <div className="bg-misty-rose px-3 py-2 rounded-lg">
                     <span className="text-sm font-semibold" style={{ color: "#FB4002" }}>= {mgDose.toFixed(2)}mg</span>
                   </div>
@@ -149,29 +151,29 @@ export default function Medication() {
                 <p className="text-xs text-muted-foreground mt-1">1 click = 0.25mg (15mg pen)</p>
               </div>
 
-              <InjectionSiteSelector value={formData.injection_site} onChange={(site) => setFormData((p) => ({ ...p, injection_site: site }))} />
+              <InjectionSiteSelector value={formData.injection_site}
+                onChange={(site) => setFormData((p) => ({ ...p, injection_site: site }))} />
 
               <div>
                 <label className="text-xs font-medium text-muted-foreground">Notes (optional)</label>
-                <Input placeholder="Any observations..." value={formData.notes} onChange={(e) => setFormData((p) => ({ ...p, notes: e.target.value }))} className="mt-1" />
+                <Input placeholder="Any observations..." value={formData.notes}
+                  onChange={(e) => setFormData((p) => ({ ...p, notes: e.target.value }))} className="mt-1" />
               </div>
 
               <label className="flex items-start gap-3 p-3 rounded-lg border-2 border-pakistani-green bg-tea-green/30">
-                <Checkbox checked={formData.sterility_confirmed} onCheckedChange={(c) => setFormData((p) => ({ ...p, sterility_confirmed: c }))} className="mt-0.5" />
+                <Checkbox checked={formData.sterility_confirmed}
+                  onCheckedChange={(c) => setFormData((p) => ({ ...p, sterility_confirmed: c }))} className="mt-0.5" />
                 <div>
                   <p className="text-sm font-semibold text-pakistani-green">Sterility Checklist ✓</p>
-                  <p className="text-xs text-pakistani-green/70">I confirm clean hands, swabbed site, and new needle.</p>
+                  <p className="text-xs text-pakistani-green/70">Clean hands, swabbed site, new needle.</p>
                 </div>
               </label>
 
               <div className="flex gap-3">
                 <Button variant="outline" onClick={() => setShowForm(false)} className="flex-1 h-12">Cancel</Button>
-                <Button
-                  onClick={handleLog}
-                  disabled={!canLog}
+                <Button onClick={handleLog} disabled={!canLog}
                   className="flex-1 h-12 text-white disabled:opacity-40 rounded-none"
-                  style={{ backgroundColor: "#FB4002" }}
-                >
+                  style={{ backgroundColor: "#FB4002" }}>
                   Log Injection
                 </Button>
               </div>
@@ -187,14 +189,15 @@ export default function Medication() {
   );
 }
 
-function ProtocolItem({ icon, label, value }) {
+function ProtocolTile({ icon, label, value, sub, bg }) {
   return (
-    <div className="flex items-center gap-1.5">
-      <span className="text-pakistani-green flex-shrink-0">{typeof icon === "string" ? icon : icon}</span>
-      <div className="min-w-0">
-        <p className="text-[10px] text-pakistani-green/60">{label}</p>
-        <p className="text-xs font-semibold text-pakistani-green truncate">{value}</p>
+    <div className={`${bg} rounded-xl p-3`}>
+      <div className="flex items-center gap-1.5 mb-1.5 text-pakistani-green opacity-70">
+        <span className="w-4 h-4">{typeof icon === "string" ? icon : icon}</span>
+        <p className="text-[10px] uppercase tracking-wider">{label}</p>
       </div>
+      <p className="text-base font-bold text-pakistani-green leading-tight">{value}</p>
+      {sub && <p className="text-[10px] text-pakistani-green/60 mt-0.5">{sub}</p>}
     </div>
   );
 }
