@@ -54,11 +54,12 @@ export default function TriggerLogger({ onClose }) {
         onClick={onClose}
       />
       <motion.div
-        initial={{ x: "100%" }}
-        animate={{ x: 0 }}
-        exit={{ x: "100%" }}
+        initial={{ y: "100%" }}
+        animate={{ y: 0 }}
+        exit={{ y: "100%" }}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-        className="fixed inset-y-0 right-0 w-full max-w-[400px] h-screen z-50 bg-card border-l border-border shadow-2xl overflow-y-auto"
+        className="fixed inset-x-0 bottom-0 z-50 bg-card rounded-t-3xl border-t border-border shadow-2xl overflow-y-auto"
+        style={{ maxHeight: "104vh", height: "104vh" }}
       >
         <div className="px-5 pt-6 pb-8">
           <div className="flex items-center justify-between mb-4">
