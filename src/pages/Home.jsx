@@ -72,11 +72,11 @@ export default function Home() {
 
   if (!profile) return <OnboardingWizard onComplete={loadData} />;
 
-  const bgClass = isMorning ? "bg-tea-green" : isEvening ? "bg-shampoo" : "bg-background";
+  const bgClass = "";
   const activeHabits = profile.active_habits || [];
 
   return (
-    <div className={`min-h-screen ${bgClass}`}>
+    <div className="min-h-screen" style={{ backgroundColor: "#ffe5e6" }}>
       <div className="px-5 pt-10 pb-6">
 
         {/* Header */}
