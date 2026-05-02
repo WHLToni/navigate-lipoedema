@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import { Sun, ChevronRight } from "lucide-react"; // Sun still used in check-in form
+import { Sun, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import OnboardingWizard from "../components/onboarding/OnboardingWizard";
@@ -16,10 +16,8 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [morningDone, setMorningDone] = useState(false);
   const [sunlight, setSunlight] = useState(null);
-  const [quickScans, setQuickScans] = useState({});
+  const [painScans, setPainScans] = useState({});
   const [todayCheckIn, setTodayCheckIn] = useState(null);
-
-  // Briefing data
   const [habitLogs, setHabitLogs] = useState([]);
   const [bodyLogs, setBodyLogs] = useState([]);
   const [checkIns, setCheckIns] = useState([]);
@@ -50,12 +48,11 @@ export default function Home() {
     setLoading(false);
   };
 
-  const handleSunlight = (value) => setSunlight(value);
-  const handleQuickScan = (regionId, value) => setQuickScans((prev) => ({ ...prev, [regionId]: value }));
+  const handlePainScan = (regionId, value) => setPainScans((prev) => ({ ...prev, [regionId]: value }));
 
   const submitMorning = async () => {
     const today = new Date().toISOString().split("T")[0];
-    const scanRegions = Object.entries(quickScans).map(([region_id, temperature]) => ({ region_id, temperature }));
+    const scanRegions = Object.entries(painScans).map(([region_id, pain_score]) => ({ region_id, pain_score }));
     await base44.entities.DailyCheckIn.create({
       check_in_type: "morning",
       check_in_date: today,
@@ -96,11 +93,10 @@ export default function Home() {
           </p>
         </motion.div>
 
-        {/* Morning Check-In */}
         {!morningDone ? (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="space-y-3">
 
-            {/* Sunlight card */}
+            {/* Sunlight */}
             <div className="bg-card rounded-xl p-4 border border-border shadow-sm">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-8 h-8 rounded-full bg-tea-green flex items-center justify-center flex-shrink-0">
@@ -108,62 +104,65 @@ export default function Home() {
                 </div>
                 <div>
                   <h3 className="text-sm text-pakistani-green" style={{ fontFamily: "var(--font-heading)", fontWeight: 800 }}>Morning Sunlight</h3>
-                  <p className="text-xs text-muted-foreground">Did you get 15+ minutes?</p>
+                  <p className="text-xs text-muted-foreground">Did you get 15+ minutes outside?</p>
                 </div>
               </div>
               <div className="flex gap-2">
                 <button
-                  onClick={() => handleSunlight(true)}
+                  onClick={() => setSunlight(true)}
                   className={`flex-1 py-2.5 rounded-lg text-sm font-medium transition-all ${
                     sunlight === true
                       ? "bg-tea-green text-pakistani-green border-2 border-pakistani-green"
                       : "bg-muted text-muted-foreground border-2 border-transparent"
                   }`}
-                  style={{ fontFamily: "var(--font-body)" }}
-                >
-                  ☀️ Yes
-                </button>
+                >☀️ Yes</button>
                 <button
-                  onClick={() => handleSunlight(false)}
+                  onClick={() => setSunlight(false)}
                   className={`flex-1 py-2.5 rounded-lg text-sm font-medium transition-all ${
                     sunlight === false
                       ? "bg-misty-rose text-pakistani-green border-2 border-pakistani-green"
                       : "bg-muted text-muted-foreground border-2 border-transparent"
                   }`}
-                  style={{ fontFamily: "var(--font-body)" }}
-                >
-                  🌙 No
-                </button>
+                >🌙 No</button>
               </div>
             </div>
 
-            {/* Quick Tissue Scan */}
+            {/* Pain Scan — replaces temperature scan */}
             <div className="bg-card rounded-xl p-4 border border-border shadow-sm">
-              <div className="flex items-center justify-between mb-1">
-                <h3 className="text-sm text-pakistani-green" style={{ fontFamily: "var(--font-heading)", fontWeight: 800 }}>Quick Tissue Scan</h3>
-                <span className="text-xs text-muted-foreground">Cold ← → Warm</span>
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <h3 className="text-sm text-pakistani-green" style={{ fontFamily: "var(--font-heading)", fontWeight: 800 }}>Morning Pain Scan</h3>
+                  <p className="text-xs text-muted-foreground">Rate pain in each region (0 = none, 10 = severe)</p>
+                </div>
               </div>
-              <div className="flex items-start gap-3 mt-2">
+              <div className="flex items-start gap-3">
                 <div className="flex-shrink-0 w-20 opacity-50">
                   <BodySvgFront regionData={{}} selectedRegion={null} onRegionTap={() => {}} />
                 </div>
-                <div className="flex-1 space-y-3">
+                <div className="flex-1 space-y-4">
                   {QUICK_SCAN_REGIONS.map((rid) => {
                     const region = FRONT_REGIONS.find((r) => r.id === rid);
                     if (!region) return null;
-                    const val = quickScans[rid] || 5;
+                    const val = painScans[rid] ?? 0;
+                    const painLabel = val === 0 ? "None" : val <= 3 ? "Mild" : val <= 6 ? "Moderate" : "Severe";
+                    const painColor = val === 0 ? "#aaa" : val <= 3 ? "#003300" : val <= 6 ? "#d97706" : "#FB4002";
                     return (
                       <div key={rid}>
-                        <div className="flex items-center justify-between mb-0.5">
-                          <span className="text-xs font-medium truncate">{region.label}</span>
-                          <span className="text-[10px] text-muted-foreground">{val <= 3 ? "Cold" : val >= 7 ? "Warm" : "Neutral"}</span>
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-xs font-medium">{region.label}</span>
+                          <span className="text-xs font-semibold" style={{ color: painColor }}>
+                            {val} — {painLabel}
+                          </span>
                         </div>
                         <Slider
                           value={[val]}
-                          onValueChange={([v]) => handleQuickScan(rid, v)}
-                          min={1} max={10} step={1}
+                          onValueChange={([v]) => handlePainScan(rid, v)}
+                          min={0} max={10} step={1}
                           className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
                         />
+                        <div className="flex justify-between text-[10px] text-muted-foreground mt-0.5">
+                          <span>0</span><span>5</span><span>10</span>
+                        </div>
                       </div>
                     );
                   })}
@@ -180,9 +179,7 @@ export default function Home() {
             </div>
           </motion.div>
         ) : (
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-3">
-
-              {/* Daily Briefing */}
+          <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }}>
             <DailyBriefing
               habitLogs={habitLogs}
               bodyLogs={bodyLogs}
@@ -192,7 +189,6 @@ export default function Home() {
               profile={profile}
               sunlightLogged={todayCheckIn?.morning_sunlight}
             />
-
           </motion.div>
         )}
       </div>
