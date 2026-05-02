@@ -76,7 +76,7 @@ export default function Home() {
   const activeHabits = profile.active_habits || [];
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#ffe5e6" }}>
+    <div className="min-h-screen bg-background">
       <div className="px-5 pt-10 pb-6">
 
         {/* Header */}
