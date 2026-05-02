@@ -5,6 +5,7 @@ const navItems = [
   { path: "/", label: "Home", icon: Home },
   { path: "/body-map", label: "Symptom Map", icon: Map },
   { path: "/habits", label: "Habits", icon: ListChecks },
+  { path: "/medication", label: "Medication", icon: Pill },
   { path: "/trends", label: "Trends", icon: TrendingUp },
   { path: "/settings", label: "Settings", icon: Settings },
 ];
