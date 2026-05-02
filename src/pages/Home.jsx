@@ -84,16 +84,9 @@ export default function Home() {
 
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-5">
-          <div className="flex items-center gap-3 mb-1">
-            <img
-              src="https://media.base44.com/images/public/69d0bde2222a87f8aebb38ac/2b3ab050b_NavigateLipoedemaIllustrationsInstagramPost.png"
-              alt="Navigate Lipoedema"
-              className="w-10 h-10 object-contain"
-            />
-            <p className="text-xs font-medium tracking-widest uppercase text-muted-foreground" style={{ fontFamily: "var(--font-body)" }}>
-              {isMorning ? "Good Morning" : isEvening ? "Good Evening" : "Good Afternoon"}
-            </p>
-          </div>
+          <p className="text-xs font-medium tracking-widest uppercase text-muted-foreground" style={{ fontFamily: "var(--font-body)" }}>
+            {isMorning ? "Good Morning" : isEvening ? "Good Evening" : "Good Afternoon"}
+          </p>
           <h1 className="text-4xl mt-0.5" style={{ fontFamily: "var(--font-display)", color: "#0a0a0a", lineHeight: 1.1 }}>
             {profile.display_name}
           </h1>
