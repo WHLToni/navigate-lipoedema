@@ -51,12 +51,10 @@ const AuthenticatedApp = () => {
     }
   }
 
-  if (showWelcome) {
-    return <WelcomeScreen onGetStarted={handleGetStarted} />;
-  }
-
   return (
     <Routes>
+      <Route path="/welcome" element={<WelcomeScreen onGetStarted={handleGetStarted} />} />
+      {showWelcome && <Route path="*" element={<WelcomeScreen onGetStarted={handleGetStarted} />} />}
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/body-map" element={<BodyMap />} />

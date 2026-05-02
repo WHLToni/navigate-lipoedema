@@ -5,27 +5,12 @@ export default function WelcomeScreen({ onGetStarted }) {
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-between px-6 py-12 relative overflow-hidden"
-      style={{ backgroundColor: "#FFE5E6" }}
+      style={{
+        backgroundImage: "url('https://media.base44.com/images/public/69d0bde2222a87f8aebb38ac/946a36da5_NL_Background_Pink.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
-      {/* Background flame pattern — decorative, low opacity */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <svg
-          viewBox="0 0 400 600"
-          className="absolute -right-20 -top-10 w-80 opacity-10"
-          fill="#FB4002"
-        >
-          <path d="M200,20 C200,20 320,100 300,200 C280,300 350,320 330,420 C310,500 220,540 200,580 C180,540 90,500 70,420 C50,320 120,300 100,200 C80,100 200,20 200,20Z" />
-          <circle cx="200" cy="80" r="55" />
-        </svg>
-        <svg
-          viewBox="0 0 400 600"
-          className="absolute -left-24 bottom-20 w-72 opacity-10"
-          fill="#FB4002"
-        >
-          <path d="M200,20 C200,20 320,100 300,200 C280,300 350,320 330,420 C310,500 220,540 200,580 C180,540 90,500 70,420 C50,320 120,300 100,200 C80,100 200,20 200,20Z" />
-          <circle cx="200" cy="80" r="55" />
-        </svg>
-      </div>
 
       {/* Top spacer */}
       <div />
@@ -66,7 +51,7 @@ export default function WelcomeScreen({ onGetStarted }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.45, duration: 0.5 }}
           className="text-5xl leading-tight mb-6"
-          style={{ fontFamily: "var(--font-display)", color: "#FB4002" }}
+          style={{ fontFamily: "var(--font-display)", color: "#0a0a0a" }}
         >
           Lipoedema
         </motion.h1>
@@ -122,7 +107,7 @@ export default function WelcomeScreen({ onGetStarted }) {
           className="text-center text-xs mt-3"
           style={{ color: "#aaa", fontFamily: "var(--font-body)" }}
         >
-          Free to use · Built by a woman living with lipoedema
+          Built by a woman living with lipoedema
         </p>
       </motion.div>
     </div>
