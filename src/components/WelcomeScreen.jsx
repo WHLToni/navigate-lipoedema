@@ -44,14 +44,11 @@ export default function WelcomeScreen({ onGetStarted }) {
           transition={{ delay: 0.2, duration: 0.5 }}
           className="mb-8"
         >
-          <svg
-            viewBox="0 0 120 160"
-            className="w-24 h-32"
-            fill="#FB4002"
-          >
-            <circle cx="60" cy="38" r="30" />
-            <path d="M60,55 C60,55 95,85 88,115 C81,140 68,152 60,158 C52,152 39,140 32,115 C25,85 60,55 60,55Z" />
-          </svg>
+          <img
+            src="https://media.base44.com/images/public/69d0bde2222a87f8aebb38ac/3f25b2a35_NavigateLipoedemaIllustrationsInstagramPost1.png"
+            alt="Navigate Lipoedema logo"
+            className="w-24 h-32 object-contain"
+          />
         </motion.div>
 
         {/* App name */}
@@ -125,7 +122,7 @@ export default function WelcomeScreen({ onGetStarted }) {
           className="text-center text-xs mt-3"
           style={{ color: "#aaa", fontFamily: "var(--font-body)" }}
         >
-          Free to use · Built by the lipoedema community
+          Free to use · Built by a woman living with lipoedema
         </p>
       </motion.div>
     </div>
