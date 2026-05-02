@@ -120,7 +120,7 @@ export default function Habits() {
       {activeHabits.length > 0 && (
         <div className="px-5 mb-5">
           <div className="flex gap-3">
-            <div className="flex-1 bg-tea-green/60 rounded-xl p-3 text-center">
+            <div className="flex-1 bg-tea-green rounded-xl p-3 text-center">
               <p className="text-2xl text-pakistani-green" style={{ fontFamily: "var(--font-heading)", fontWeight: 800 }}>{completedCount}</p>
               <p className="text-xs text-pakistani-green/70">Done</p>
             </div>
@@ -180,8 +180,8 @@ export default function Habits() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.04 }}
-                    className={`rounded-xl p-4 border shadow-sm transition-all ${cfg.bg} ${
-                      isCompleted ? "border-pakistani-green" : isSkipped ? "border-border opacity-60" : "border-border bg-card"
+                    className={`rounded-xl p-3 transition-all ${cfg.bg} ${
+                      isCompleted ? "ring-1 ring-pakistani-green/30" : isSkipped ? "opacity-50" : "bg-card border border-border/60"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-3">
@@ -209,7 +209,7 @@ export default function Habits() {
                         <div className="flex gap-2 flex-shrink-0">
                           <button
                             onClick={() => logHabit(habit.name, "completed")}
-                            className="px-3 py-1.5 rounded-full text-white text-xs font-semibold hover:opacity-90 transition-opacity"
+                            className="px-3 py-1.5 rounded-full text-white text-xs font-semibold hover:opacity-90 transition-opacity shadow-sm"
                             style={{ backgroundColor: "#FB4002" }}
                           >
                             Done ✓
