@@ -59,9 +59,9 @@ export default function TriggerLogger({ onClose }) {
         exit={{ y: "100%" }}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
         className="fixed inset-x-0 bottom-0 z-50 bg-card rounded-t-3xl border-t border-border shadow-2xl overflow-y-auto"
-        style={{ maxHeight: "104vh", height: "104vh" }}
+        style={{ maxHeight: "85vh" }}
       >
-        <div className="px-5 pt-6 pb-8">
+        <div className="px-5 pt-6 pb-28">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-heading text-lg text-pakistani-green">Log Today's Triggers</h3>
             <button onClick={onClose} className="p-2 rounded-full hover:bg-muted">
