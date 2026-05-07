@@ -1,5 +1,6 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { Home, Map, ListChecks, Pill, TrendingUp, Settings } from "lucide-react";
+import InstallBanner from "@/components/InstallBanner";
 
 const navItems = [
   { path: "/", label: "Home", icon: Home },
@@ -18,6 +19,8 @@ export default function Layout() {
       <main className="flex-1 pb-20 overflow-y-auto">
         <Outlet />
       </main>
+
+      <InstallBanner />
 
       {/* Bottom Navigation — dark brand treatment */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 pb-safe" style={{ background: "#0a0a0a", borderTop: "1px solid #1a1a1a" }}>
