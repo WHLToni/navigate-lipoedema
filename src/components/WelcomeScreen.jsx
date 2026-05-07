@@ -30,7 +30,7 @@ export default function WelcomeScreen({ onGetStarted }) {
           className="mb-8"
         >
           <img
-            src="https://media.base44.com/images/public/69d0bde2222a87f8aebb38ac/3f25b2a35_NavigateLipoedemaIllustrationsInstagramPost1.png"
+            src="https://media.base44.com/images/public/69d0bde2222a87f8aebb38ac/97ed8d504_NavigateLipoedemaIllustrationsInstagramPost2.png"
             alt="Navigate Lipoedema logo"
             className="w-24 h-32 object-contain"
           />
