@@ -1,0 +1,22 @@
+{
+  "name": "Navigate Lipoedema",
+  "short_name": "Navigate",
+  "description": "Your protocol. Your data. Your control.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fafafa",
+  "theme_color": "#FB4002",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://media.base44.com/images/public/69d0bde2222a87f8aebb38ac/97ed8d504_NavigateLipoedemaIllustrationsInstagramPost2.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://media.base44.com/images/public/69d0bde2222a87f8aebb38ac/97ed8d504_NavigateLipoedemaIllustrationsInstagramPost2.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
