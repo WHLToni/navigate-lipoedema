@@ -21,6 +21,7 @@ export default function BodyMap() {
   const [migraineIntensity, setMigraineIntensity] = useState(1);
   const [cyclePhase, setCyclePhase] = useState("N/A");
   const [systemicSaved, setSystemicSaved] = useState(false);
+  const [measurementsSaved, setMeasurementsSaved] = useState(false);
 
   const MCAS_OPTIONS = ["Rash/Hives", "Itchy Skin", "Flushing", "Headache"];
   const CYCLE_PHASES = ["Menses", "Follicular", "Ovulation", "Luteal", "N/A"];
@@ -332,7 +333,7 @@ export default function BodyMap() {
             icon={Ruler}
             title="Measurements"
             statusLabel="Circumference & volume tracking"
-            isDone={false}
+            isDone={measurementsSaved}
           />
           <AnimatePresence initial={false}>
             {openSection === "measurements" && (
@@ -345,7 +346,7 @@ export default function BodyMap() {
                 className="overflow-hidden"
               >
                 <div className="pt-3">
-                  <MeasurementsTab />
+                  <MeasurementsTab onSaved={() => setMeasurementsSaved(true)} />
                 </div>
               </motion.div>
             )}

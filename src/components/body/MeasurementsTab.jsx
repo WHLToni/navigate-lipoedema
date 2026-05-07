@@ -49,7 +49,7 @@ const MEASUREMENT_GROUPS = [
   },
 ];
 
-export default function MeasurementsTab() {
+export default function MeasurementsTab({ onSaved }) {
   const [form, setForm] = useState({});
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -70,6 +70,8 @@ export default function MeasurementsTab() {
     if (todayLog) {
       setExistingId(todayLog.id);
       setForm(todayLog);
+      setSaved(true);
+      if (onSaved) onSaved();
     }
   };
 
@@ -89,6 +91,7 @@ export default function MeasurementsTab() {
     }
     setSaving(false);
     setSaved(true);
+    if (onSaved) onSaved();
     loadData();
   };
 
