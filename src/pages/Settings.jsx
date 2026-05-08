@@ -3,7 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowLeft, Save, RefreshCw, Trash2, LogOut } from "lucide-react";
+import { ArrowLeft, Save, RefreshCw, Trash2, LogOut, Users } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
 const STAGES = ["Stage 1", "Stage 2", "Stage 3", "Stage 4"];
@@ -270,6 +270,23 @@ export default function Settings() {
           <Save className="w-4 h-4 mr-2" />
           {saved ? "Saved!" : saving ? "Saving…" : "Save Changes"}
         </Button>
+
+        {/* Community Support */}
+        <section className="bg-muted/50 rounded-xl p-4">
+          <h2 className="font-heading text-lg text-pakistani-green mb-1">Community Support</h2>
+          <p className="text-xs text-muted-foreground mb-3">
+            Join our Facebook group for app support, tips, and to connect with other users.
+          </p>
+          <a
+            href="https://www.facebook.com/share/g/1EF9SSpwcA/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 bg-[#1877F2] text-white text-sm font-medium px-4 py-2.5 rounded-full w-fit"
+          >
+            <Users className="w-4 h-4" />
+            Join the Facebook Group
+          </a>
+        </section>
 
         {/* Reset onboarding — admin only */}
         {currentUser?.role === "admin" && <div className="pt-4 border-t border-border">
